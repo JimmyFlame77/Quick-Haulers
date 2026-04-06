@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+{% include head.html %}
+<body>
+{% include header.html %}
+
+<!-- Breadcrumb -->
+<div class="breadcrumb">
+  <div class="container">
+    <a href="index.html">Home</a>
+    <span>›</span>
+    <a href="index.html#area">Service Areas</a>
+    <span>›</span>
+    {{ page.city }}, {{ page.state | default: "NY" }}
+  </div>
+</div>
+
+<!-- Hero -->
+<section class="location-hero">
+  <div class="container">
+    <div class="hero-badge">{{ page.hero_badge }}</div>
+    <h1>Dumpster Rental in<br><span>{{ page.city }}, {{ page.state | default: "NY" }}</span></h1>
+    <p>{{ page.hero_description }}</p>
+    <div class="hero-actions">
+      <a href="{{ site.data.site.phone_link }}" class="btn btn-primary">📞 Call {{ site.data.site.phone }}</a>
+      <a href="#prices" class="btn btn-outline">View Pricing &amp; Sizes</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">3</span><span class="stat-lbl">Dumpster Sizes</span></div>
+      <div class="stat"><span class="stat-num">14</span><span class="stat-lbl">Day Rentals Included</span></div>
+      <div class="stat"><span class="stat-num">$0</span><span class="stat-lbl">Hidden Fees</span></div>
+      <div class="stat"><span class="stat-num">Same</span><span class="stat-lbl">Day Delivery Avail.</span></div>
+    </div>
+    <div class="hero-trust">
+      <span class="trust-chip">✅ Locally Owned &amp; Operated</span>
+      <span class="trust-chip">✅ All-Inclusive Pricing</span>
+      <span class="trust-chip">✅ Residential &amp; Commercial</span>
+      <span class="trust-chip">✅ Driveway-Safe Equipment</span>
+    </div>
+  </div>
+</section>
+
+<!-- Intro Band -->
+<div class="intro-band">
+  <div class="container">
+    <p>Ready to get hauling? Call us now: <a href="{{ site.data.site.phone_link }}">{{ site.data.site.phone }}</a> &nbsp;|&nbsp; {{ site.data.site.hours }} &nbsp;|&nbsp; Same-day delivery often available in {{ page.city }}</p>
+  </div>
+</div>
+
+<!-- Why Section -->
+<section id="why">
+  <div class="container">
+    <div class="why-grid">
+      <div class="why-visual">
+        <div class="why-visual-icon">🚛</div>
+        <h3>{{ page.why_visual_h3 }}</h3>
+        <p>{{ page.why_visual_description }}</p>
+        <div class="why-chips">
+          <div class="why-chip">Same-Day Delivery</div>
+          <div class="why-chip">Clear Pricing</div>
+          <div class="why-chip">Flexible Pickup</div>
+          <div class="why-chip">Local Experts</div>
+        </div>
+      </div>
+      <div class="why-text">
+        <span class="section-label">Why Quick Haulers</span>
+        <h2 class="section-title">We Haul It — You Forget It</h2>
+        <p>{{ page.why_paragraph_1 }}</p>
+        <p>{{ page.why_paragraph_2 }}</p>
+        <ul class="why-list">
+          {% for item in page.why_list %}
+          <li>{{ item }}</li>
+          {% endfor %}
+        </ul>
+        <div>
+          <a href="{{ site.data.site.phone_link }}" class="btn btn-primary">Book Your Dumpster Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Services -->
+<section id="services">
+  <div class="container">
+    <div class="services-header">
+      <span class="section-label">What We Handle</span>
+      <h2 class="section-title">{{ page.services_h2 | default: "Dumpster Rental Services" }}</h2>
+      <p class="section-sub">{{ page.services_sub | default: "From backyard cleanouts to full-scale commercial builds — if it needs to go, Quick Haulers can haul it." }}</p>
+    </div>
+    {% include service-cards.html %}
+  </div>
+</section>
+
+<!-- Pricing -->
+<section id="prices">
+  <div class="container">
+    <div class="prices-header">
+      <span class="section-label">Transparent Pricing</span>
+      <h2 class="section-title">{{ page.pricing_h2 | default: "Simple, All-Inclusive Dumpster Pricing" }}</h2>
+      <p class="section-sub">{{ page.pricing_sub | default: "Choose the size that fits your project. All rentals include up to 2 weeks — no hidden fees, ever." }}</p>
+    </div>
+    {% include pricing-cards.html %}
+  </div>
+</section>
+
+<!-- How It Works -->
+<section id="how">
+  <div class="container">
+    <div class="how-header">
+      <span class="section-label">The Process</span>
+      <h2 class="section-title">{{ page.how_h2 | default: "Quick by Name. Quick by Nature." }}</h2>
+      {% if page.how_sub %}<p class="section-sub" style="margin-inline:auto;">{{ page.how_sub }}</p>{% endif %}
+    </div>
+    <div class="steps-grid">
+      {% for step in page.how_steps %}
+      <div class="step">
+        <div class="step-num">{{ step.num }}</div>
+        <h4>{{ step.title }}</h4>
+        <p>{{ step.description }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+{% if page.faqs %}
+<section id="faq">
+  <div class="container">
+    <div class="faq-header">
+      <span class="section-label">Got Questions?</span>
+      <h2 class="section-title">{{ page.faq_h2 | default: "Dumpster Rental FAQs" }}</h2>
+      {% if page.faq_sub %}<p class="section-sub">{{ page.faq_sub }}</p>{% endif %}
+    </div>
+    <div class="faq-list">
+      {% for faq in page.faqs %}
+      <div class="faq-item">
+        <button class="faq-q">{{ faq.question }} <span class="faq-icon">+</span></button>
+        <div class="faq-a">{{ faq.answer }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- Nearby Areas -->
+<section id="nearby">
+  <div class="container">
+    <div class="nearby-inner">
+      <div>
+        <span class="section-label">Where We Serve</span>
+        <h2 class="section-title">{{ page.area_h2 | default: page.city | append: " & Surrounding Communities" }}</h2>
+        <p class="section-sub">{{ page.area_description }}</p>
+        <div class="area-note"><strong>Outside our listed area?</strong> No problem — we frequently deliver farther out. Give us a call at <a href="{{ site.data.site.phone_link }}" style="color:var(--clr-accent);font-weight:700;">{{ site.data.site.phone }}</a> and we'll do our best to accommodate your project.</div>
+      </div>
+      <div>
+        {% include area-tags.html %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Band -->
+{% include cta-band.html %}
+
+<!-- Schema Markup -->
+{% include schema-local-business.html %}
+{% include schema-faq.html %}
+{% include schema-breadcrumb.html %}
+
+{% include footer.html %}
+{% include scripts.html %}
+</body>
+</html>

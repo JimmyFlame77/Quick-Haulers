@@ -1,0 +1,33 @@
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }}</title>
+  {% if page.description %}<meta name="description" content="{{ page.description }}">{% endif %}
+  <meta name="robots" content="{{ page.robots | default: 'index, follow' }}">
+  {% if page.canonical %}<link rel="canonical" href="{{ page.canonical }}">{% endif %}
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{{ site.data.site.company_name }}">
+  <meta property="og:title" content="{{ page.og_title | default: page.title }}">
+  <meta property="og:description" content="{{ page.og_description | default: page.description }}">
+  {% if page.canonical %}<meta property="og:url" content="{{ page.canonical }}">{% endif %}
+  <meta property="og:locale" content="en_US">
+
+  {% if page.og_image %}<meta property="og:image" content="{{ page.og_image }}">{% endif %}
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ page.twitter_title | default: page.og_title | default: page.title }}">
+  <meta name="twitter:description" content="{{ page.twitter_description | default: page.og_description | default: page.description }}">
+  {% if page.twitter_image %}<meta name="twitter:image" content="{{ page.twitter_image }}">{% elif page.og_image %}<meta name="twitter:image" content="{{ page.og_image }}">{% endif %}
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="{{ '/assets/images/favicon.jpg' | relative_url }}">
+  <link rel="apple-touch-icon" href="{{ '/assets/images/favicon.jpg' | relative_url }}">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="{{ '/css/style.css' | relative_url }}">
+
+  {% if page.extra_head %}{{ page.extra_head }}{% endif %}
+</head>

@@ -1,0 +1,29 @@
+- label: "About"
+  url: "#about"
+  index_url: "#about"
+  page_url: "index.html#about"
+
+- label: "Services"
+  url: "#services"
+  index_url: "#services"
+  page_url: "index.html#services"
+
+- label: "Pricing"
+  url: "#prices"
+  index_url: "#prices"
+  page_url: "index.html#prices"
+
+- label: "Service Area"
+  url: "#area"
+  index_url: "#area"
+  page_url: "index.html#area"
+
+- label: "Contact"
+  url: "#contact"
+  index_url: "#contact"
+  page_url: "index.html#contact"
+
+- label: "Blog"
+  url: "blog.html"
+  index_url: "blog.html"
+  page_url: "blog.html"
