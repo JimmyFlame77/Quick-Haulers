@@ -20,7 +20,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{ page.twitter_title | default: page.og_title | default: page.title }}">
   <meta name="twitter:description" content="{{ page.twitter_description | default: page.og_description | default: page.description }}">
-  {% if page.twitter_image %}<meta name="twitter:image" content="{{ page.twitter_image }}">{% elif page.og_image %}<meta name="twitter:image" content="{{ page.og_image }}">{% endif %}
+  {% if page.twitter_image %}<meta name="twitter:image" content="{{ page.twitter_image }}">{% elsif page.og_image %}<meta name="twitter:image" content="{{ page.og_image }}">{% endif %}
 
   <!-- Favicon -->
   <link rel="icon" type="image/jpeg" href="{{ '/assets/images/favicon.jpg' | relative_url }}">
