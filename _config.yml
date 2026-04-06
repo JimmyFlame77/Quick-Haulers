@@ -1,7 +1,7 @@
 title: "Quick Haulers | Dumpster Rentals"
 description: "Hassle-free, same-day dumpster rentals across Long Island, NY. Clean sizes, transparent pricing, and a team that shows up on time."
 url: "https://quickdumpsters.digidev.solutions"
-baseurl: ""
+baseurl: "/Quick-Haulers"
 
 # Build settings
 markdown: kramdown
