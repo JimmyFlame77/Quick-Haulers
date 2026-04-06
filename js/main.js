@@ -19,6 +19,7 @@
   if (hamburger && mobileMenu) {
     hamburger.addEventListener('click', function() {
       mobileMenu.classList.toggle('open');
+      hamburger.classList.toggle('active');
     });
   }
 
@@ -56,5 +57,7 @@
 // Global function for mobile menu close (used by onclick handlers)
 function closeMobileMenu() {
   var mobileMenu = document.getElementById('mobile-menu');
+  var hamburger = document.getElementById('hamburger');
   if (mobileMenu) mobileMenu.classList.remove('open');
+  if (hamburger) hamburger.classList.remove('active');
 }
