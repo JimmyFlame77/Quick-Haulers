@@ -2,8 +2,8 @@
 layout: default
 title: "Blog — Quick Haulers | Dumpster Rental Tips & Guides | Long Island, NY"
 description: "Dumpster rental tips, project guides, and waste management advice for Long Island homeowners and contractors. From the Quick Haulers team."
-robots: "noindex, nofollow"
-canonical: "https://quickdumpsters.digidev.solutions/blog.html"
+robots: "index, follow"
+canonical: "{{ 'blog.html' | relative_url }}"
 og_title: "Blog — Quick Haulers | Long Island Dumpster Rental Tips"
 og_description: "Dumpster rental tips, project guides, and waste management advice for Long Island homeowners and contractors."
 og_image: "Quick-Haulers.jpeg"
@@ -17,12 +17,10 @@ extra_head: |
     "@context": "https://schema.org",
     "@type": "Blog",
     "name": "Quick Haulers Blog",
-    "url": "https://quickdumpsters.digidev.solutions/blog.html",
     "description": "Dumpster rental tips, project guides, and waste management advice for Long Island homeowners and contractors.",
     "publisher": {
       "@type": "LocalBusiness",
-      "name": "Quick Haulers",
-      "url": "https://quickdumpsters.digidev.solutions/"
+      "name": "Quick Haulers"
     }
   }
   </script>
@@ -43,7 +41,7 @@ extra_head: |
 <div class="filter-bar" id="filter-bar">
   <div class="container">
     <div class="filter-inner">
-      <p class="filter-count" id="filter-count">Loading posts&hellip;</p>
+      <p class="filter-count" id="filter-count">Showing <span>{{ site.posts | size }}</span> post{{ site.posts | size | minus: 1 | at_least: 1 | times: 0 | plus: site.posts.size }}{% if site.posts.size != 1 %}s{% endif %}</p>
       <input type="text" id="search-input" placeholder="Search posts…" aria-label="Search posts">
     </div>
   </div>
@@ -53,43 +51,45 @@ extra_head: |
 <section class="posts-section">
   <div class="container">
     <div class="posts-grid" id="posts-grid">
-      <!-- Skeleton cards shown while loading -->
-      <div class="skeleton">
-        <div class="skel-img"></div>
-        <div class="skel-body">
-          <div class="skel-line short"></div>
-          <div class="skel-line title"></div>
-          <div class="skel-line full"></div>
-          <div class="skel-line med"></div>
+
+      {% for post in site.posts %}
+      <article class="post-card" data-title="{{ post.title | downcase | escape }}" data-excerpt="{{ post.excerpt | strip_html | downcase | escape }}">
+        <a href="{{ post.url | relative_url }}" aria-label="Read: {{ post.title | escape }}">
+          {% if post.image %}
+            <img class="post-thumb" src="{{ post.image | relative_url }}" alt="{{ post.title | escape }}" loading="lazy">
+          {% else %}
+            <div class="post-thumb-placeholder">🗑️</div>
+          {% endif %}
+        </a>
+        <div class="post-body">
+          <div class="post-meta">
+            {% if post.category %}<span class="post-cat">{{ post.category }}</span>{% endif %}
+            <span class="post-date">{{ post.date | date: "%b %-d, %Y" }}</span>
+          </div>
+          <a href="{{ post.url | relative_url }}">
+            <h2 class="post-title">{{ post.title }}</h2>
+          </a>
+          <p class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 28 }}</p>
+          <div class="post-footer">
+            <span class="post-author">{{ post.author | default: "Quick Haulers" }}</span>
+            <a href="{{ post.url | relative_url }}" class="read-more">Read More</a>
+          </div>
         </div>
-      </div>
-      <div class="skeleton">
-        <div class="skel-img"></div>
-        <div class="skel-body">
-          <div class="skel-line short"></div>
-          <div class="skel-line title"></div>
-          <div class="skel-line full"></div>
-          <div class="skel-line med"></div>
-        </div>
-      </div>
-      <div class="skeleton">
-        <div class="skel-img"></div>
-        <div class="skel-body">
-          <div class="skel-line short"></div>
-          <div class="skel-line title"></div>
-          <div class="skel-line full"></div>
-          <div class="skel-line med"></div>
-        </div>
-      </div>
+      </article>
+      {% endfor %}
+
     </div>
 
-    <!-- Load More -->
-    <div class="load-more-wrap" id="load-more-wrap" style="display:none;">
-      <button class="btn btn-primary" id="load-more-btn">Load More Posts</button>
+    {% if site.posts.size == 0 %}
+    <div class="state-box">
+      <div class="state-icon">📭</div>
+      <h3>No posts yet</h3>
+      <p>Check back soon for dumpster rental tips, project guides, and local know-how.</p>
     </div>
+    {% endif %}
 
     <!-- Back to top -->
-    <div style="text-align:center;">
+    <div style="text-align:center; margin-top: 2rem;">
       <a href="#" class="back-to-top">↑ Back to top</a>
     </div>
   </div>
@@ -107,215 +107,36 @@ extra_head: |
   </div>
 </section>
 
-<!-- ===== BLOG JAVASCRIPT ===== -->
+<!-- ===== CLIENT-SIDE SEARCH ===== -->
 <script>
-  const WP_API_URL = 'https://quickdumpsters.digidev.solutions/wp-json/wp/v2';
-  const POSTS_PER_PAGE = 9;
+  (function() {
+    var searchInput = document.getElementById('search-input');
+    var grid = document.getElementById('posts-grid');
+    var filterCount = document.getElementById('filter-count');
+    var cards = grid.querySelectorAll('.post-card');
+    var total = cards.length;
+    var timer;
 
-  let currentPage  = 1;
-  let totalPages   = 1;
-  let allPosts     = [];
-  let filteredPosts = [];
-  let searchQuery  = '';
+    searchInput.addEventListener('input', function() {
+      clearTimeout(timer);
+      timer = setTimeout(function() {
+        var query = searchInput.value.trim().toLowerCase();
+        var visible = 0;
 
-  const grid         = document.getElementById('posts-grid');
-  const filterCount  = document.getElementById('filter-count');
-  const loadMoreWrap = document.getElementById('load-more-wrap');
-  const loadMoreBtn  = document.getElementById('load-more-btn');
-  const searchInput  = document.getElementById('search-input');
+        cards.forEach(function(card) {
+          var title = card.getAttribute('data-title') || '';
+          var excerpt = card.getAttribute('data-excerpt') || '';
+          var match = !query || title.indexOf(query) !== -1 || excerpt.indexOf(query) !== -1;
+          card.style.display = match ? '' : 'none';
+          if (match) visible++;
+        });
 
-  async function fetchPosts(page = 1) {
-    try {
-      const url = `${WP_API_URL}/posts?_embed&per_page=${POSTS_PER_PAGE}&page=${page}&orderby=date&order=desc`;
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000);
-      const res = await fetch(url, { signal: controller.signal, mode: 'cors' });
-      clearTimeout(timeoutId);
-
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
-      totalPages = parseInt(res.headers.get('X-WP-TotalPages') || '1');
-      const total = parseInt(res.headers.get('X-WP-Total') || '0');
-      const posts = await res.json();
-      return { posts, total, totalPages };
-    } catch (err) {
-      console.error('WordPress API error:', err);
-      return null;
-    }
-  }
-
-  function getFeaturedImage(post) {
-    try {
-      return post._embedded?.['wp:featuredmedia']?.[0]?.media_details?.sizes?.medium_large?.source_url
-        || post._embedded?.['wp:featuredmedia']?.[0]?.source_url
-        || null;
-    } catch { return null; }
-  }
-
-  function getCategory(post) {
-    try { return post._embedded?.['wp:term']?.[0]?.[0]?.name || 'Tips'; }
-    catch { return 'Tips'; }
-  }
-
-  function getAuthor(post) {
-    try { return post._embedded?.author?.[0]?.name || 'Quick Haulers'; }
-    catch { return 'Quick Haulers'; }
-  }
-
-  function stripHtml(html) {
-    const tmp = document.createElement('div');
-    tmp.innerHTML = html;
-    return tmp.textContent || tmp.innerText || '';
-  }
-
-  function formatDate(dateStr) {
-    const d = new Date(dateStr);
-    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-  }
-
-  function buildCard(post) {
-    const img      = getFeaturedImage(post);
-    const cat      = getCategory(post);
-    const author   = getAuthor(post);
-    const date     = formatDate(post.date);
-    const title    = post.title?.rendered || 'Untitled Post';
-    const excerpt  = stripHtml(post.excerpt?.rendered || '').trim();
-    const link     = post.link || '#';
-
-    const imgHTML = img
-      ? `<img class="post-thumb" src="${img}" alt="${title.replace(/"/g, '&quot;')}" loading="lazy">`
-      : `<div class="post-thumb-placeholder">🗑️</div>`;
-
-    return `
-      <article class="post-card">
-        <a href="${link}" target="_blank" rel="noopener" aria-label="Read: ${title.replace(/"/g, '&quot;')}">
-          ${imgHTML}
-        </a>
-        <div class="post-body">
-          <div class="post-meta">
-            <span class="post-cat">${cat}</span>
-            <span class="post-date">${date}</span>
-          </div>
-          <a href="${link}" target="_blank" rel="noopener">
-            <h2 class="post-title">${title}</h2>
-          </a>
-          <p class="post-excerpt">${excerpt}</p>
-          <div class="post-footer">
-            <span class="post-author">${author}</span>
-            <a href="${link}" target="_blank" rel="noopener" class="read-more">Read More</a>
-          </div>
-        </div>
-      </article>`;
-  }
-
-  function renderCards(posts, append = false) {
-    if (!append) grid.innerHTML = '';
-
-    if (posts.length === 0 && !append) {
-      grid.innerHTML = `
-        <div class="state-box">
-          <div class="state-icon">📭</div>
-          <h3>No posts found</h3>
-          <p>Try a different search term, or check back soon for new content.</p>
-          <button class="btn btn-primary" onclick="clearSearch()">Clear Search</button>
-        </div>`;
-      filterCount.innerHTML = 'No posts found';
-      loadMoreWrap.style.display = 'none';
-      return;
-    }
-
-    posts.forEach(post => {
-      grid.insertAdjacentHTML('beforeend', buildCard(post));
+        if (query) {
+          filterCount.innerHTML = '<span>' + visible + '</span> result' + (visible !== 1 ? 's' : '') + ' for "<em>' + query + '</em>"';
+        } else {
+          filterCount.innerHTML = 'Showing <span>' + total + '</span> post' + (total !== 1 ? 's' : '');
+        }
+      }, 280);
     });
-  }
-
-  function showError() {
-    grid.innerHTML = `
-      <div class="state-box">
-        <div class="state-icon">⚠️</div>
-        <h3>Couldn't load posts</h3>
-        <p>There was a problem connecting to the blog. Please check back in a moment.</p>
-        <button class="btn btn-primary" onclick="initBlog()">Try Again</button>
-      </div>`;
-    filterCount.innerHTML = 'Could not load posts';
-    loadMoreWrap.style.display = 'none';
-  }
-
-  function applySearch() {
-    searchQuery = searchInput.value.trim().toLowerCase();
-    if (!searchQuery) {
-      filteredPosts = [...allPosts];
-    } else {
-      filteredPosts = allPosts.filter(p => {
-        const title   = stripHtml(p.title?.rendered || '').toLowerCase();
-        const excerpt = stripHtml(p.excerpt?.rendered || '').toLowerCase();
-        const content = stripHtml(p.content?.rendered || '').toLowerCase();
-        return title.includes(searchQuery) || excerpt.includes(searchQuery) || content.includes(searchQuery);
-      });
-    }
-    renderCards(filteredPosts);
-    filterCount.innerHTML = searchQuery
-      ? `<span>${filteredPosts.length}</span> result${filteredPosts.length !== 1 ? 's' : ''} for "<em>${searchQuery}</em>"`
-      : `Showing <span>${allPosts.length}</span> post${allPosts.length !== 1 ? 's' : ''}`;
-    loadMoreWrap.style.display = (!searchQuery && currentPage < totalPages) ? 'block' : 'none';
-  }
-
-  function clearSearch() {
-    searchInput.value = '';
-    applySearch();
-  }
-
-  loadMoreBtn.addEventListener('click', async () => {
-    loadMoreBtn.textContent = 'Loading…';
-    loadMoreBtn.disabled = true;
-    currentPage++;
-    const result = await fetchPosts(currentPage);
-    if (result) {
-      allPosts = [...allPosts, ...result.posts];
-      renderCards(result.posts, true);
-      filterCount.innerHTML = `Showing <span>${allPosts.length}</span> post${allPosts.length !== 1 ? 's' : ''}`;
-      if (currentPage >= totalPages) {
-        loadMoreWrap.style.display = 'none';
-      } else {
-        loadMoreBtn.textContent = 'Load More Posts';
-        loadMoreBtn.disabled = false;
-      }
-    } else {
-      loadMoreBtn.textContent = 'Load More Posts';
-      loadMoreBtn.disabled = false;
-    }
-  });
-
-  let searchTimer;
-  searchInput.addEventListener('input', () => {
-    clearTimeout(searchTimer);
-    searchTimer = setTimeout(applySearch, 280);
-  });
-
-  async function initBlog() {
-    grid.innerHTML = `
-      ${'<div class="skeleton"><div class="skel-img"></div><div class="skel-body"><div class="skel-line short"></div><div class="skel-line title"></div><div class="skel-line full"></div><div class="skel-line med"></div></div></div>'.repeat(3)}`;
-    filterCount.innerHTML = 'Loading posts&hellip;';
-
-    const result = await fetchPosts(1);
-
-    if (!result) { showError(); return; }
-
-    currentPage  = 1;
-    totalPages   = result.totalPages;
-    allPosts     = result.posts;
-    filteredPosts = [...allPosts];
-
-    renderCards(allPosts);
-
-    filterCount.innerHTML = `Showing <span>${allPosts.length}</span> post${allPosts.length !== 1 ? 's' : ''}`;
-
-    if (totalPages > 1) {
-      loadMoreWrap.style.display = 'block';
-      loadMoreBtn.textContent = 'Load More Posts';
-      loadMoreBtn.disabled = false;
-    }
-  }
-
-  initBlog();
+  })();
 </script>

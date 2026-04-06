@@ -39,9 +39,15 @@ Quick-Haulers/
 ├── js/main.js                     # Shared JS (hamburger, FAQ, CTA)
 ├── assets/images/                 # hero.png, logo.png, favicon.jpg
 ├── index.html                     # Homepage
-├── blog.html                      # Blog (WordPress API)
+├── _posts/                        # Blog articles (Markdown)
+├── _layouts/
+│   ├── default.html               # Base layout (homepage, blog, map)
+│   ├── location.html              # Full location page layout
+│   └── post.html                  # Blog article layout
+├── blog.html                      # Blog index (renders post cards)
 ├── map.html                       # Interactive Leaflet map
-└── [city]-ny.html                 # Location pages (8 currently built)
+├── assets/images/blog/            # Blog post images
+└── [city]-ny.html                 # Location pages (28 built)
 ```
 
 ---
@@ -113,6 +119,91 @@ hours: "Mon–Sat 7 AM – 6 PM"
 
 ---
 
+## How to Write a Blog Post
+
+### Create the file
+
+Add a new Markdown file to `_posts/` using Jekyll's naming convention:
+
+```
+_posts/YYYY-MM-DD-your-post-slug.md
+```
+
+Example: `_posts/2026-04-10-spring-cleaning-dumpster-tips.md`
+
+The date in the filename determines the publish date and sort order on the blog index.
+
+### Front matter template
+
+Every post starts with YAML front matter between `---` delimiters:
+
+```yaml
+---
+layout: post
+title: "Your Post Title Here"
+date: 2026-04-10
+category: "Tips"
+author: "Quick Haulers"
+image: "/assets/images/blog/your-image.jpg"
+excerpt: "A short summary that appears on the blog card (1-2 sentences)."
+description: "SEO meta description for search results (under 160 characters)."
+---
+```
+
+| Field | Required | Notes |
+|-------|----------|-------|
+| `layout` | Yes | Always `post` |
+| `title` | Yes | The article headline |
+| `date` | Yes | Must match the filename date (YYYY-MM-DD) |
+| `category` | No | Shown as a badge on the card (e.g., "Tips", "Guides", "News") |
+| `author` | No | Defaults to "Quick Haulers" if omitted |
+| `image` | No | Path to the hero/card image. Defaults to placeholder if omitted |
+| `excerpt` | No | Card summary. If omitted, Jekyll auto-generates from first paragraph |
+| `description` | No | SEO meta description for the page |
+
+### Write the content
+
+After the closing `---`, write your article in Markdown:
+
+```markdown
+Your intro paragraph goes here. Keep it punchy.
+
+## First Section Heading
+
+Paragraph content...
+
+## Second Section Heading
+
+More content...
+```
+
+The article layout renders: hero image at top, title, meta info (category, date, author), your content, then prev/next navigation links to adjacent posts.
+
+### Add a post image
+
+1. Save your image to `assets/images/blog/` (e.g., `spring-cleaning.jpg`)
+2. Reference it in the front matter: `image: "/assets/images/blog/spring-cleaning.jpg"`
+3. The image displays as a cinematic banner (21:9 on desktop, 16:9 on mobile) using `object-fit: cover` — no manual cropping needed. Any aspect ratio works.
+
+If you omit the `image` field, the placeholder image is used automatically.
+
+### Publish
+
+Commit and push to `main`. GitHub Pages rebuilds automatically. The new post appears on the blog index and gets prev/next links wired to adjacent posts.
+
+```bash
+git add _posts/2026-04-10-spring-cleaning-dumpster-tips.md
+git add assets/images/blog/spring-cleaning.jpg   # if you added an image
+git commit -m "New blog post: Spring cleaning dumpster tips"
+git push origin main
+```
+
+### Blog index
+
+The blog page (`blog.html`) automatically lists all posts as cards in reverse chronological order. Each card shows the image, category badge, date, title, excerpt, author, and a "Read More" link. The search bar filters cards by title and excerpt.
+
+---
+
 ## How to Add a New Location Page
 
 1. Create a new file at the root, e.g. `montauk-ny.html`.
@@ -168,7 +259,10 @@ When migrating to a custom domain (e.g. `quickdumpsters.digidev.solutions`):
 | Homepage content                | `index.html`                            |
 | Location page content           | `[city]-ny.html` (front matter)         |
 | Map pins / coordinates          | `map.html` (`AREA_COORDS` array)        |
-| Blog                            | `blog.html`                             |
+| Blog index                      | `blog.html`                             |
+| Blog posts                      | `_posts/YYYY-MM-DD-slug.md`             |
+| Blog post layout                | `_layouts/post.html`                    |
+| Blog post images                | `assets/images/blog/`                   |
 | SEO meta (sitewide)             | `_includes/head.html`, `_config.yml`    |
 | SEO meta (per page)             | Front matter of each `.html` file       |
 | Schema / structured data        | `_includes/schema-*.html`               |

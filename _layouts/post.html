@@ -1,0 +1,74 @@
+---
+layout: default
+---
+
+<!-- ===== ARTICLE HERO IMAGE ===== -->
+<section class="article-hero">
+  <div class="article-hero-img-wrap">
+    <img
+      class="article-hero-img"
+      src="{{ page.image | default: '/assets/images/blog/placeholder.jpg' | relative_url }}"
+      alt="{{ page.title | escape }}"
+    >
+  </div>
+</section>
+
+<!-- ===== ARTICLE BODY ===== -->
+<article class="article-body">
+  <div class="container article-container">
+
+    <!-- Meta -->
+    <div class="article-meta">
+      {% if page.category %}<span class="post-cat">{{ page.category }}</span>{% endif %}
+      <span class="article-date">{{ page.date | date: "%b %-d, %Y" }}</span>
+      {% if page.author %}<span class="article-author">{{ page.author }}</span>{% endif %}
+    </div>
+
+    <!-- Title -->
+    <h1 class="article-title">{{ page.title }}</h1>
+
+    <!-- Content -->
+    <div class="article-content">
+      {{ content }}
+    </div>
+
+    <!-- Prev / Next -->
+    <nav class="article-nav">
+      {% if page.previous %}
+        <a href="{{ page.previous.url | relative_url }}" class="article-nav-link article-nav-prev">
+          <span class="article-nav-label">&larr; Previous</span>
+          <span class="article-nav-title">{{ page.previous.title }}</span>
+        </a>
+      {% else %}
+        <span class="article-nav-link article-nav-placeholder"></span>
+      {% endif %}
+
+      {% if page.next %}
+        <a href="{{ page.next.url | relative_url }}" class="article-nav-link article-nav-next">
+          <span class="article-nav-label">Next &rarr;</span>
+          <span class="article-nav-title">{{ page.next.title }}</span>
+        </a>
+      {% else %}
+        <span class="article-nav-link article-nav-placeholder"></span>
+      {% endif %}
+    </nav>
+
+    <!-- Back to Blog -->
+    <div class="article-back">
+      <a href="{{ 'blog.html' | relative_url }}" class="btn btn-outline">&larr; Back to Blog</a>
+    </div>
+
+  </div>
+</article>
+
+<!-- ===== CTA STRIP ===== -->
+<section class="cta-strip">
+  <div class="container">
+    <h2>Ready to Book Your <span>Dumpster?</span></h2>
+    <p>Same-day delivery across Long Island. No hidden fees. No hassle.</p>
+    <div class="cta-actions">
+      <a href="{{ 'index.html' | relative_url }}#contact" class="btn btn-primary">Get a Free Quote</a>
+      <a href="{{ site.data.site.phone_link }}" class="btn btn-outline">📞 {{ site.data.site.phone_formatted }}</a>
+    </div>
+  </div>
+</section>
