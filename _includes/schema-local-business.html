@@ -1,0 +1,51 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "{{ site.data.site.company_name }} Dumpster Rentals",
+  "description": "Roll-off dumpster rental service serving {{ page.city }}, {{ page.state | default: 'NY' }} and the Long Island East End. Same-day delivery available for residential and commercial projects.",
+  "url": "{{ page.canonical }}",
+  "telephone": "+16313155555",
+  "priceRange": "$$",
+  "areaServed": {
+    "@type": "City",
+    "name": "{{ page.city }}",
+    "containedInPlace": {
+      "@type": "State",
+      "name": "New York"
+    }
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "{{ page.city }}",
+    "addressRegion": "{{ page.state | default: 'NY' }}",
+    "addressCountry": "US"
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+      "opens": "07:00",
+      "closes": "18:00"
+    }
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Dumpster Rental Sizes",
+    "itemListElement": [
+      {% for plan in site.data.pricing %}
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "{{ plan.title }} Rental – {{ page.city }} {{ page.state | default: 'NY' }}",
+          "description": "{{ plan.size }}-yard roll-off dumpster for {% if plan.featured %}mid-size renovation{% elsif plan.size == '10' %}small cleanouts and{% else %}large construction and commercial{% endif %} projects in {{ page.city }}, {{ page.state | default: 'NY' }}."
+        },
+        "price": "{{ plan.price }}",
+        "priceCurrency": "USD"
+      }{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    ]
+  }
+}
+</script>

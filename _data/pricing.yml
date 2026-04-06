@@ -1,0 +1,41 @@
+- size: "10"
+  title: "10-Yard Dumpster"
+  subtitle: "Small Projects &amp; Cleanouts"
+  price: "487"
+  dimensions: "14'L &times; 8'W &times; 3'H"
+  featured: false
+  badge: null
+  features:
+    - "Up to 2 weeks included"
+    - "Garage &amp; basement cleanouts"
+    - "Small landscaping projects"
+    - "Bathroom or kitchen demo"
+    - "Single-room renovations"
+
+- size: "15"
+  title: "15-Yard Dumpster"
+  subtitle: "Home Renovations &amp; Mid-Size Jobs"
+  price: "567"
+  dimensions: "16'L &times; 8'W &times; 4'H"
+  featured: true
+  badge: "Most Popular"
+  features:
+    - "Up to 2 weeks included"
+    - "Full room renovations"
+    - "Deck removal &amp; roofing"
+    - "Large estate cleanouts"
+    - "Multi-room gut jobs"
+
+- size: "20"
+  title: "20-Yard Dumpster"
+  subtitle: "Large Projects &amp; Commercial Use"
+  price: "747"
+  dimensions: "16'L &times; 8'W &times; 5'H"
+  featured: false
+  badge: null
+  features:
+    - "Up to 2 weeks included"
+    - "Major home renovations"
+    - "Commercial job sites"
+    - "Whole-house cleanouts"
+    - "Large construction projects"

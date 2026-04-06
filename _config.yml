@@ -1,0 +1,32 @@
+title: "Quick Haulers | Dumpster Rentals"
+description: "Hassle-free, same-day dumpster rentals across Long Island, NY. Clean sizes, transparent pricing, and a team that shows up on time."
+url: "https://quickdumpsters.digidev.solutions"
+baseurl: ""
+
+# Build settings
+markdown: kramdown
+permalink: pretty
+
+# Exclude from build
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - README.md
+  - CLAUDE.md
+  - .claude
+  - .mcp.json
+  - Hero.png
+  - "Quick Haulers.png"
+
+# Default front matter
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: "default"
+
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap

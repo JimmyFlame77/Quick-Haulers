@@ -1,0 +1,19 @@
+<div class="services-grid">
+  {% if page.service_cards %}
+    {% for card in page.service_cards %}
+    <div class="service-card">
+      <div class="service-icon">{{ card.icon }}</div>
+      <h3>{{ card.title }}</h3>
+      <p>{{ card.description }}</p>
+    </div>
+    {% endfor %}
+  {% else %}
+    {% for service in site.data.services %}
+    <div class="service-card">
+      <div class="service-icon">{{ service.icon }}</div>
+      <h3>{{ service.title }}</h3>
+      <p>{{ service.description }}</p>
+    </div>
+    {% endfor %}
+  {% endif %}
+</div>

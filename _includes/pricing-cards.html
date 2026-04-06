@@ -1,0 +1,25 @@
+<div class="price-cards">
+  {% for plan in site.data.pricing %}
+  <div class="price-card{% if plan.featured %} featured{% endif %}">
+    <div class="price-card-head">
+      {% if plan.badge %}<span class="popular-badge">{{ plan.badge }}</span>{% endif %}
+      <h3>{{ plan.title }}</h3>
+      <div class="yard-sub">{{ plan.subtitle }}</div>
+      <div class="price-amount">
+        <sup>Starting at</sup>${{ plan.price }}
+        <span class="price-note">Per rental period, up to 2 weeks</span>
+      </div>
+    </div>
+    <div class="price-card-body">
+      <div class="price-dims"><strong>Dimensions:</strong> {{ plan.dimensions }}</div>
+      <ul class="price-features">
+        {% for feature in plan.features %}
+        <li>{{ feature }}</li>
+        {% endfor %}
+      </ul>
+      <a href="{{ site.data.site.phone_link }}" class="btn btn-primary">Call to Book</a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+<p class="price-disclaimer">Not sure which size you need? <a href="{{ site.data.site.phone_link }}" style="color:var(--clr-accent);font-weight:700;">Call us at {{ site.data.site.phone }}</a> — we'll help you find the perfect fit for your {% if page.city %}{{ page.city }} {% endif %}project and budget.</p>
