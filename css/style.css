@@ -239,7 +239,7 @@ nav {
 
 /* ===== HERO (Index) ===== */
 #hero {
-  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 60%, #1a1a1a 100%);
+  background: linear-gradient(135deg, var(--clr-dark) 0%, #2d2547 100%);
   color: var(--clr-white);
   padding: 6rem 0 5rem;
   position: relative;
@@ -250,7 +250,7 @@ nav {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 60% 50% at 80% 50%, rgba(244,165,0,.12) 0%, transparent 70%);
+    radial-gradient(ellipse at 80% 50%, rgba(124,92,191,.18) 0%, transparent 65%);
   pointer-events: none;
 }
 .hero-inner {
