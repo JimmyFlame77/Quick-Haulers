@@ -275,3 +275,36 @@ When migrating to a custom domain (e.g. `quickdumpsters.digidev.solutions`):
 - **Leaflet.js** for the interactive service area map
 - **Vanilla JS** — no frameworks or build tools
 - **GitHub Pages** for hosting and CI/CD
+
+---
+
+## To Do
+
+Items to complete as the project progresses. Delete each item once done.
+
+### Client Setup
+- [ ] Get Google Business Profile access from client
+- [ ] Link GBP to website and add `sameAs` property to LocalBusiness schema in `_includes/schema-local-business.html`
+- [ ] Set up Google Search Console and submit `sitemap.xml`
+- [ ] Add analytics integration (GA4 or Plausible) to `_includes/head.html`
+
+### Custom Domain Migration
+- [ ] Configure custom domain in repo Settings → Pages
+- [ ] Change `baseurl` in `_config.yml` from `"/Quick-Haulers"` to `""`
+- [ ] Update `url` in `_config.yml` to the production domain
+- [ ] Verify sitemap.xml, canonical URLs, and OG tags reflect the new domain
+
+### Contact / Order Form
+- [ ] Activate the quote form on `index.html` (Formspree, Stripe, or custom endpoint)
+- [ ] Build order form with dumpster size selection and Stripe payment integration
+- [ ] Connect form pricing to `_data/pricing.yml` for consistency
+
+### Blog Content
+- [ ] Replace lorem ipsum in the 3 starter blog posts with real content
+- [ ] Add unique images per blog post to `assets/images/blog/`
+- [ ] Write and publish new articles on a regular cadence
+
+### Optimization
+- [ ] Run Core Web Vitals audit once real traffic is flowing
+- [ ] Review and optimize page load performance
+- [ ] Compress/convert remaining images (logo.png) to WebP where beneficial
