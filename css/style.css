@@ -262,8 +262,8 @@ nav {
   display: inline-flex;
   align-items: center;
   gap: .5rem;
-  background: rgba(244,165,0,.15);
-  border: 1px solid rgba(244,165,0,.35);
+  background: rgba(124,92,191,.25);
+  border: 1px solid rgba(124,92,191,.5);
   color: var(--clr-accent);
   font-size: .8rem;
   font-weight: 700;
