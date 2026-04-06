@@ -4,7 +4,7 @@
     <p>{{ page.cta_description | default: "Quick Haulers is standing by for fast dumpster delivery. One call and we handle the rest — delivery, rental period, pickup, done." }}</p>
     <div class="cta-actions">
       <a href="{{ site.data.site.phone_link }}" class="btn btn-white">📞 Call {{ site.data.site.phone }}</a>
-      <a href="index.html#contact" class="btn btn-outline">Get a Free Quote</a>
+      <a href="{{ 'index.html' | relative_url }}#contact" class="btn btn-outline">Get a Free Quote</a>
     </div>
   </div>
 </section>

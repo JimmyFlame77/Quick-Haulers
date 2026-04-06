@@ -1,10 +1,10 @@
 <header>
   <div class="container">
     <nav>
-      <a href="{% if page.is_index %}#hero{% else %}index.html{% endif %}" class="logo">Quick<span>Haulers</span></a>
+      <a href="{% if page.is_index %}#hero{% else %}{{ 'index.html' | relative_url }}{% endif %}" class="logo">Quick<span>Haulers</span></a>
       <ul class="nav-links">
         {% for link in site.data.navigation %}
-        <li><a href="{% if page.is_index %}{{ link.index_url }}{% else %}{{ link.page_url }}{% endif %}"{% if page.active_nav == link.label %} class="active"{% endif %}>{{ link.label }}</a></li>
+        <li><a href="{% if page.is_index %}{{ link.index_url }}{% else %}{{ link.page_base | relative_url }}{{ link.page_anchor }}{% endif %}"{% if page.active_nav == link.label %} class="active"{% endif %}>{{ link.label }}</a></li>
         {% endfor %}
       </ul>
       <a href="{{ site.data.site.phone_link }}" class="btn btn-primary nav-cta" style="display:none;" id="nav-cta-desktop">{{ site.data.site.phone_formatted }}</a>
@@ -15,7 +15,7 @@
   </div>
   <nav class="mobile-menu" id="mobile-menu">
     {% for link in site.data.navigation %}
-    <a href="{% if page.is_index %}{{ link.index_url }}{% else %}{{ link.page_url }}{% endif %}" onclick="closeMobileMenu()"{% if page.active_nav == link.label %} class="active"{% endif %}>{{ link.label }}</a>
+    <a href="{% if page.is_index %}{{ link.index_url }}{% else %}{{ link.page_base | relative_url }}{{ link.page_anchor }}{% endif %}" onclick="closeMobileMenu()"{% if page.active_nav == link.label %} class="active"{% endif %}>{{ link.label }}</a>
     {% endfor %}
     <a href="{{ site.data.site.phone_link }}" style="color: var(--clr-accent); margin-top:.5rem;">📞 {{ site.data.site.phone_formatted }}</a>
   </nav>

@@ -4,12 +4,12 @@
     <div class="footer-inner">
       <div style="font-size:1.4rem;font-weight:900;color:#fff;">Quick<span style="color:var(--clr-accent);">Haulers</span></div>
       <div class="footer-links">
-        <a href="index.html">Home</a>
-        <a href="index.html#services">Services</a>
-        <a href="index.html#prices">Pricing</a>
-        <a href="index.html#area">Service Area</a>
-        <a href="index.html#contact">Contact</a>
-        <a href="blog.html">Blog</a>
+        <a href="{{ 'index.html' | relative_url }}">Home</a>
+        <a href="{{ 'index.html' | relative_url }}#services">Services</a>
+        <a href="{{ 'index.html' | relative_url }}#prices">Pricing</a>
+        <a href="{{ 'index.html' | relative_url }}#area">Service Area</a>
+        <a href="{{ 'index.html' | relative_url }}#contact">Contact</a>
+        <a href="{{ 'blog.html' | relative_url }}">Blog</a>
       </div>
       <p>Serving {{ page.city }}, {{ page.state | default: "NY" }} &amp; the {{ page.footer_region | default: "Long Island East End" }} &nbsp;|&nbsp; <a href="{{ site.data.site.phone_link }}">{{ site.data.site.phone }}</a> &nbsp;|&nbsp; {{ site.data.site.hours }}</p>
       <p>&copy; {{ site.data.site.year }} {{ site.data.site.company_name }} Dumpster Rentals. All rights reserved. Locally owned &amp; operated on Long Island, NY.</p>
@@ -23,7 +23,7 @@
       <div class="footer-logo">Quick<span>Haulers</span></div>
       <nav class="footer-links">
         {% for link in site.data.navigation %}
-        <a href="{% if page.is_index %}{{ link.index_url }}{% else %}{{ link.page_url }}{% endif %}">{{ link.label }}</a>
+        <a href="{% if page.is_index %}{{ link.index_url }}{% else %}{{ link.page_base | relative_url }}{{ link.page_anchor }}{% endif %}">{{ link.label }}</a>
         {% endfor %}
         <a href="{{ site.data.site.phone_link }}">{{ site.data.site.phone_formatted }}</a>
       </nav>

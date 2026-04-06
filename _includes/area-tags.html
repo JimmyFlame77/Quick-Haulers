@@ -1,5 +1,5 @@
 <div class="area-tags">
   {% for area in site.data.service_areas %}
-  <a href="{{ area.url }}" class="area-tag{% if area.name == page.area_name %} active{% endif %}{% if area.is_map_link %} area-tag--map{% endif %}">{{ area.name }}</a>
+  <a href="{{ area.url | relative_url }}" class="area-tag{% if area.name == page.area_name %} active{% endif %}{% if area.is_map_link %} area-tag--map{% endif %}">{{ area.name }}</a>
   {% endfor %}
 </div>

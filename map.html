@@ -14,7 +14,7 @@ extra_head: |
 <!-- ===== BREADCRUMB ===== -->
 <div class="breadcrumb-map">
   <div class="container">
-    <a href="index.html">Home</a>
+    <a href="{{ 'index.html' | relative_url }}">Home</a>
     <span class="sep">›</span>
     <span>Service Area Map</span>
   </div>
@@ -85,7 +85,7 @@ extra_head: |
     <p>We frequently deliver outside our listed areas. Give us a call — if we can get there, we will.</p>
     <div class="cta-actions">
       <a href="{{ site.data.site.phone_link }}" class="btn btn-white">📞 Call {{ site.data.site.phone }}</a>
-      <a href="index.html#contact" class="btn btn-outline">Send a Message</a>
+      <a href="{{ 'index.html' | relative_url }}#contact" class="btn btn-outline">Send a Message</a>
     </div>
   </div>
 </section>
