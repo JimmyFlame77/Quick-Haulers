@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quick Haulers Service Area Map | Long Island Dumpster Rental</title>
+  <meta name="description" content="Quick Haulers delivers roll-off dumpsters across Long Island's East End — from Riverhead to the Hamptons and the North Fork. Find your area and get a same-day quote.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://quickdumpsters.digidev.solutions/map.html">
+  <meta property="og:title" content="Quick Haulers Service Area Map | Long Island">
+  <meta property="og:description" content="Interactive map of all Quick Haulers dumpster rental service areas across Long Island's East End.">
+  <meta property="og:url" content="https://quickdumpsters.digidev.solutions/map.html">
+  <meta property="og:type" content="website">
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" crossorigin="">
+
+  <style>
+    :root {
+      --clr-accent:   #7c5cbf;
+      --clr-accent-dk:#6344a8;
+      --clr-dark:     #1e1b2e;
+      --clr-mid:      #3a3a3a;
+      --clr-light:    #f5f5f5;
+      --clr-white:    #ffffff;
+      --clr-border:   #e0e0e0;
+      --clr-gray:     #6b6b6b;
+      --font-main:    'Segoe UI', Arial, sans-serif;
+      --radius:       8px;
+      --shadow:       0 4px 18px rgba(0,0,0,.10);
+      --transition:   .25s ease;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-main); color: var(--clr-dark); background: var(--clr-white); font-size: 16px; line-height: 1.6; }
+    img  { display: block; max-width: 100%; }
+    a    { color: inherit; text-decoration: none; }
+    .container { width: min(92%, 1140px); margin-inline: auto; }
+
+    /* ===== BUTTONS ===== */
+    .btn {
+      display: inline-block;
+      padding: .6rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: .92rem;
+      cursor: pointer;
+      transition: background var(--transition), color var(--transition), transform var(--transition), box-shadow var(--transition);
+      border: none;
+    }
+    .btn-primary { background: var(--clr-accent); color: var(--clr-white); }
+    .btn-primary:hover { background: var(--clr-accent-dk); transform: translateY(-2px); box-shadow: 0 6px 18px rgba(124,92,191,.35); }
+    .btn-outline  { background: transparent; color: var(--clr-white); border: 2px solid rgba(255,255,255,.45); }
+    .btn-outline:hover { border-color: var(--clr-accent); color: var(--clr-accent); }
+
+    /* ===== HEADER ===== */
+    header {
+      background: var(--clr-dark);
+      border-bottom: 2px solid rgba(124,92,191,.3);
+      position: sticky;
+      top: 0;
+      z-index: 500;
+    }
+    header nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .85rem 0;
+      gap: 1rem;
+    }
+    .logo { font-size: 1.35rem; font-weight: 900; color: #fff; letter-spacing: -.01em; }
+    .logo span { color: var(--clr-accent); }
+    .nav-links { list-style: none; display: flex; gap: 1.6rem; }
+    .nav-links a { color: rgba(255,255,255,.75); font-size: .9rem; font-weight: 600; transition: color var(--transition); }
+    .nav-links a:hover { color: var(--clr-accent); }
+    .nav-links a.active { color: var(--clr-accent); }
+    #nav-cta-desktop { display: none; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: .4rem; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: #fff; border-radius: 2px; transition: var(--transition); }
+    .mobile-menu { display: none; flex-direction: column; background: var(--clr-dark); border-top: 1px solid rgba(255,255,255,.08); }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { color: rgba(255,255,255,.8); padding: .85rem 1.25rem; font-size: .95rem; font-weight: 600; border-bottom: 1px solid rgba(255,255,255,.06); transition: color var(--transition); }
+    .mobile-menu a:hover { color: var(--clr-accent); }
+    @media (max-width: 767px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+    }
+    @media (min-width: 768px) {
+      #nav-cta-desktop { display: inline-block; }
+    }
+
+    /* ===== BREADCRUMB ===== */
+    .breadcrumb {
+      background: rgba(30,27,46,.96);
+      border-bottom: 1px solid rgba(124,92,191,.2);
+      padding: .55rem 0;
+      font-size: .82rem;
+      color: rgba(255,255,255,.5);
+    }
+    .breadcrumb a { color: var(--clr-accent); transition: opacity var(--transition); }
+    .breadcrumb a:hover { opacity: .8; }
+    .breadcrumb .sep { margin: 0 .45rem; opacity: .4; }
+
+    /* ===== PAGE HERO ===== */
+    #hero {
+      background: linear-gradient(135deg, var(--clr-dark) 0%, #2d2540 60%, var(--clr-dark) 100%);
+      padding: 3.5rem 0 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 55% 60% at 75% 50%, rgba(124,92,191,.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-inner { position: relative; z-index: 1; max-width: 680px; }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      background: rgba(124,92,191,.18);
+      border: 1px solid rgba(124,92,191,.4);
+      color: #c5aff5;
+      font-size: .77rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: .28rem .85rem;
+      border-radius: 50px;
+      margin-bottom: 1.1rem;
+    }
+    #hero h1 {
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      font-weight: 900;
+      line-height: 1.1;
+      color: #fff;
+      margin-bottom: .9rem;
+      letter-spacing: -.02em;
+    }
+    #hero h1 span { color: var(--clr-accent); }
+    #hero p {
+      font-size: clamp(.95rem, 2vw, 1.08rem);
+      color: rgba(255,255,255,.72);
+      margin-bottom: 1.8rem;
+      max-width: 520px;
+    }
+    .hero-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem 2.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,.1);
+    }
+    .stat-num { font-size: 1.9rem; font-weight: 900; color: var(--clr-accent); line-height: 1; }
+    .stat-lbl { font-size: .78rem; color: rgba(255,255,255,.5); text-transform: uppercase; letter-spacing: .08em; margin-top: .15rem; }
+
+    /* ===== MAP SECTION ===== */
+    #map-section { background: var(--clr-light); padding: 3rem 0; }
+    .map-wrap {
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(0,0,0,.15);
+      border: 3px solid rgba(124,92,191,.25);
+      position: relative;
+    }
+    #map { height: 520px; width: 100%; }
+    @media (max-width: 600px) { #map { height: 380px; } }
+
+    /* ===== Leaflet popup overrides ===== */
+    .leaflet-popup-content-wrapper {
+      border-radius: 12px !important;
+      box-shadow: 0 6px 24px rgba(0,0,0,.18) !important;
+      border: none !important;
+      padding: 0 !important;
+    }
+    .leaflet-popup-content { margin: 0 !important; }
+    .qh-popup {
+      padding: 1rem 1.2rem;
+      min-width: 160px;
+      text-align: center;
+    }
+    .qh-popup strong {
+      display: block;
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--clr-dark);
+      margin-bottom: .5rem;
+    }
+    .qh-popup a {
+      display: inline-block;
+      background: var(--clr-accent);
+      color: #fff;
+      font-size: .82rem;
+      font-weight: 700;
+      padding: .35rem .9rem;
+      border-radius: 50px;
+      transition: background var(--transition);
+    }
+    .qh-popup a:hover { background: var(--clr-accent-dk); }
+    .qh-popup .no-page {
+      display: inline-block;
+      font-size: .78rem;
+      color: var(--clr-gray);
+      font-style: italic;
+    }
+    .leaflet-popup-tip { background: #fff !important; }
+
+    /* ===== MAP LEGEND ===== */
+    .map-legend {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+      font-size: .83rem;
+      color: var(--clr-gray);
+    }
+    .legend-item { display: flex; align-items: center; gap: .45rem; }
+    .legend-dot {
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .legend-dot.active { background: var(--clr-accent); border: 2px solid #fff; box-shadow: 0 0 0 2px var(--clr-accent); }
+    .legend-dot.coming  { background: rgba(124,92,191,.3); border: 2px solid var(--clr-accent); }
+
+    /* ===== AREA GRID ===== */
+    #area-grid { padding: 4rem 0; background: var(--clr-dark); }
+    #area-grid .section-label {
+      display: inline-block;
+      font-size: .77rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--clr-accent);
+      margin-bottom: .6rem;
+    }
+    #area-grid .section-title {
+      font-size: clamp(1.5rem, 3.5vw, 2rem);
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: .6rem;
+    }
+    #area-grid .section-sub { font-size: .97rem; color: rgba(255,255,255,.55); margin-bottom: 2rem; max-width: 560px; }
+    .area-tags { display: flex; flex-wrap: wrap; gap: .6rem; }
+    .area-tag {
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.15);
+      color: #ddd;
+      border-radius: 50px;
+      padding: .38rem .95rem;
+      font-size: .83rem;
+      font-weight: 600;
+      transition: background var(--transition), border-color var(--transition), color var(--transition);
+    }
+    .area-tag:hover { background: rgba(124,92,191,.3); border-color: var(--clr-accent); color: #fff; }
+    .area-tag.active { background: var(--clr-accent); border-color: var(--clr-accent); color: var(--clr-white); font-weight: 800; }
+    .area-tag--map   { border-style: dashed; }
+
+    /* ===== CTA BAND ===== */
+    #cta-band {
+      padding: 4.5rem 0;
+      background: linear-gradient(135deg, var(--clr-accent) 0%, var(--clr-accent-dk) 100%);
+      color: #fff;
+      text-align: center;
+    }
+    #cta-band h2 { font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 900; margin-bottom: .9rem; }
+    #cta-band p  { font-size: 1rem; color: rgba(255,255,255,.85); max-width: 500px; margin: 0 auto 2rem; }
+    .cta-actions { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
+    .btn-white { background: #fff; color: var(--clr-accent); }
+    .btn-white:hover { background: var(--clr-dark); color: #fff; transform: translateY(-2px); }
+
+    /* ===== FOOTER ===== */
+    footer { background: var(--clr-dark); color: rgba(255,255,255,.6); padding: 2.5rem 0; text-align: center; font-size: .88rem; border-top: 1px solid rgba(255,255,255,.08); }
+    footer a { color: var(--clr-accent); font-weight: 600; }
+    footer a:hover { text-decoration: underline; }
+    .footer-inner { display: flex; flex-direction: column; gap: .75rem; align-items: center; }
+    .footer-links { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; justify-content: center; }
+    .footer-links a { color: rgba(255,255,255,.7); font-weight: 500; }
+    .footer-links a:hover { color: var(--clr-accent); }
+  </style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+  <div class="container">
+    <nav>
+      <a href="index.html" class="logo">Quick<span>Haulers</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#services">Services</a></li>
+        <li><a href="index.html#prices">Pricing</a></li>
+        <li><a href="map.html" class="active">Service Area</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+        <li><a href="blog.html">Blog</a></li>
+      </ul>
+      <a href="tel:6313155555" class="btn btn-primary" id="nav-cta-desktop">631-315-5555</a>
+      <button class="hamburger" id="hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </div>
+  <nav class="mobile-menu" id="mobile-menu">
+    <a href="index.html#about"    onclick="closeMobileMenu()">About</a>
+    <a href="index.html#services" onclick="closeMobileMenu()">Services</a>
+    <a href="index.html#prices"   onclick="closeMobileMenu()">Pricing</a>
+    <a href="map.html"            onclick="closeMobileMenu()">Service Area</a>
+    <a href="index.html#contact"  onclick="closeMobileMenu()">Contact</a>
+    <a href="blog.html"           onclick="closeMobileMenu()">Blog</a>
+    <a href="tel:6313155555" style="color:var(--clr-accent);">📞 631-315-5555</a>
+  </nav>
+</header>
+
+<!-- ===== BREADCRUMB ===== -->
+<div class="breadcrumb">
+  <div class="container">
+    <a href="index.html">Home</a>
+    <span class="sep">›</span>
+    <span>Service Area Map</span>
+  </div>
+</div>
+
+<!-- ===== HERO ===== -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-badge">📍 Long Island's East End · 28 Communities</div>
+      <h1>Everywhere You Need Us<br><span>on Long Island</span></h1>
+      <p>Quick Haulers delivers roll-off dumpsters from Riverhead to Montauk's doorstep — covering the North Fork, the Hamptons, and every town in between. Find your area below and book same-day.</p>
+      <div class="hero-stats">
+        <div>
+          <div class="stat-num">28</div>
+          <div class="stat-lbl">Service Areas</div>
+        </div>
+        <div>
+          <div class="stat-num">3</div>
+          <div class="stat-lbl">Dumpster Sizes</div>
+        </div>
+        <div>
+          <div class="stat-num">2 wks</div>
+          <div class="stat-lbl">Included Per Rental</div>
+        </div>
+        <div>
+          <div class="stat-num">0</div>
+          <div class="stat-lbl">Hidden Fees</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MAP ===== -->
+<section id="map-section">
+  <div class="container">
+    <div class="map-wrap">
+      <div id="map"><p style="padding:2rem;color:#888;text-align:center;">Loading map… if this persists, please refresh the page.</p></div>
+    </div>
+    <div class="map-legend">
+      <div class="legend-item">
+        <div class="legend-dot active"></div>
+        <span>Click any pin to view that area's page &amp; pricing</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== AREA TAG GRID ===== -->
+<section id="area-grid">
+  <div class="container">
+    <span class="section-label">All Service Areas</span>
+    <h2 class="section-title">Pick Your Town, Get a Quote</h2>
+    <p class="section-sub">Every link below opens a dedicated page with local pricing, service details, and a direct quote form for that area.</p>
+    <div id="area-tags-container" class="area-tags"></div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section id="cta-band">
+  <div class="container">
+    <h2>Don't See Your Town?</h2>
+    <p>We frequently deliver outside our listed areas. Give us a call — if we can get there, we will.</p>
+    <div class="cta-actions">
+      <a href="tel:6313155555" class="btn btn-white">📞 Call 631-315-5555</a>
+      <a href="index.html#contact" class="btn btn-outline">Send a Message</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div style="font-size:1.4rem;font-weight:900;color:#fff;">Quick<span style="color:var(--clr-accent);">Haulers</span></div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="index.html#services">Services</a>
+        <a href="index.html#prices">Pricing</a>
+        <a href="map.html">Service Area</a>
+        <a href="index.html#contact">Contact</a>
+        <a href="blog.html">Blog</a>
+      </div>
+      <p>Serving Long Island's East End, NY &nbsp;|&nbsp; <a href="tel:6313155555">631-315-5555</a> &nbsp;|&nbsp; Mon–Sat 7 AM – 6 PM</p>
+      <p>&copy; 2026 Quick Haulers Dumpster Rentals. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== LEAFLET JS ===== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" crossorigin=""></script>
+
+<!-- ===== MAP INIT ===== -->
+<script>
+  // ── Area data (mirrors service-areas.js but with coordinates) ──
+  var AREA_COORDS = [
+    { name: "Riverhead", url: "riverhead-ny.html", lat: 40.9148, lng: -72.6621 },
+    { name: "Southampton", url: "southampton-ny.html", lat: 40.884, lng: -72.3898 },
+    { name: "Hampton Bays", url: "hampton-bays-ny.html", lat: 40.8676, lng: -72.5179 },
+    { name: "Wading River", url: "wading-river-ny.html", lat: 40.9565, lng: -72.8364 },
+    { name: "Southold", url: "southold-ny.html", lat: 41.0648, lng: -72.4282 },
+    { name: "Greenport", url: "greenport-ny.html", lat: 41.1023, lng: -72.3593 },
+    { name: "Sag Harbor", url: "sag-harbor-ny.html", lat: 40.9998, lng: -72.2929 },
+    { name: "Bridgehampton", url: "bridgehampton-ny.html", lat: 40.934, lng: -72.3073 },
+    { name: "East Hampton", url: "east-hampton-ny.html", lat: 40.9634, lng: -72.1851 },
+    { name: "Westhampton Beach", url: "westhampton-beach-ny.html", lat: 40.8001, lng: -72.644 },
+    { name: "Jamesport", url: "jamesport-ny.html", lat: 40.9454, lng: -72.5815 },
+    { name: "Aquebogue", url: "aquebogue-ny.html", lat: 40.9337, lng: -72.6154 },
+    { name: "Cutchogue", url: "cutchogue-ny.html", lat: 41.0148, lng: -72.4934 },
+    { name: "Mattituck", url: "mattituck-ny.html", lat: 40.9954, lng: -72.5268 },
+    { name: "East Marion", url: "east-marion-ny.html", lat: 41.1154, lng: -72.3454 },
+    { name: "Shelter Island", url: "shelter-island-ny.html", lat: 41.0654, lng: -72.3318 },
+    { name: "Calverton", url: "calverton-ny.html", lat: 40.9187, lng: -72.7479 },
+    { name: "Manorville", url: "manorville-ny.html", lat: 40.8587, lng: -72.7879 },
+    { name: "East Moriches", url: "east-moriches-ny.html", lat: 40.8076, lng: -72.7601 },
+    { name: "Quogue", url: "quogue-ny.html", lat: 40.8201, lng: -72.5979 },
+    { name: "Wainscott", url: "wainscott-ny.html", lat: 40.9337, lng: -72.2429 },
+    { name: "Sagaponack", url: "sagaponack-ny.html", lat: 40.9076, lng: -72.2651 },
+    { name: "Speonk", url: "speonk-ny.html", lat: 40.8212, lng: -72.6629 },
+    { name: "Eastport", url: "eastport-ny.html", lat: 40.8287, lng: -72.7229 },
+    { name: "Remsenburg", url: "remsenburg-ny.html", lat: 40.8087, lng: -72.699 },
+    { name: "Peconic", url: "peconic-ny.html", lat: 41.0451, lng: -72.4729 },
+    { name: "Laurel", url: "laurel-ny.html", lat: 40.9751, lng: -72.5629 },
+    { name: "New Suffolk", url: "new-suffolk-ny.html", lat: 40.9876, lng: -72.4879 },
+  ];
+
+  // ── Init map centered on Long Island East End ──
+  var map = L.map('map', {
+    center: [40.95, -72.50],
+    zoom: 10,
+    zoomControl: true,
+    scrollWheelZoom: false   // prevent accidental scroll-zoom on the page
+  });
+
+  // ── Tile layer: CartoDB Positron (clean, light, no API key) ──
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 19
+  }).addTo(map);
+
+  // ── Custom purple marker icon ──
+  var qhIcon = L.divIcon({
+    className: '',
+    html: '<div style="width:18px;height:18px;background:#7c5cbf;border:3px solid #fff;border-radius:50%;box-shadow:0 2px 8px rgba(124,92,191,.55);"></div>',
+    iconSize:   [18, 18],
+    iconAnchor: [9,  9],
+    popupAnchor:[0, -12]
+  });
+
+  // ── Plot markers ──
+  AREA_COORDS.forEach(function(area) {
+    var marker = L.marker([area.lat, area.lng], {icon: qhIcon}).addTo(map);
+    var popupHTML = '<div class="qh-popup">'
+      + '<strong>' + area.name + '</strong>'
+      + '<a href="' + area.url + '">View Pricing & Info →</a>'
+      + '</div>';
+    marker.bindPopup(popupHTML, { maxWidth: 210 });
+  });
+
+  // ── Enable scroll zoom only after user clicks map ──
+  map.on('click', function() { map.scrollWheelZoom.enable(); });
+  map.on('mouseout', function() { map.scrollWheelZoom.disable(); });
+</script>
+
+<!-- ===== NAV / MOBILE MENU ===== -->
+<script>
+  (function() {
+    var cta = document.getElementById('nav-cta-desktop');
+    if (window.innerWidth >= 768) cta.style.display = 'inline-block';
+    window.addEventListener('resize', function() {
+      cta.style.display = window.innerWidth >= 768 ? 'inline-block' : 'none';
+    });
+  })();
+  var hamburger  = document.getElementById('hamburger');
+  var mobileMenu = document.getElementById('mobile-menu');
+  hamburger.addEventListener('click', function() { mobileMenu.classList.toggle('open'); });
+  function closeMobileMenu() { mobileMenu.classList.remove('open'); }
+</script>
+
+<!-- ===== AREA TAGS (dynamic) ===== -->
+<script src="service-areas.js"></script>
+<script>renderAreaTags('area-tags-container', '🗺 All Areas');</script>
+
+</body>
+</html>

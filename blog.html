@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog — Quick Haulers | Dumpster Rental Tips & Guides | Long Island, NY</title>
+
+  <!-- SEO -->
+  <meta name="description" content="Dumpster rental tips, project guides, and waste management advice for Long Island homeowners and contractors. From the Quick Haulers team.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="author" content="Quick Haulers">
+  <link rel="canonical" href="https://quickdumpsters.digidev.solutions/blog.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Quick Haulers">
+  <meta property="og:title" content="Blog — Quick Haulers | Long Island Dumpster Rental Tips">
+  <meta property="og:description" content="Dumpster rental tips, project guides, and waste management advice for Long Island homeowners and contractors.">
+  <meta property="og:url" content="https://quickdumpsters.digidev.solutions/blog.html">
+  <meta property="og:image" content="Quick-Haulers.jpeg">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Blog — Quick Haulers | Long Island Dumpster Rental Tips">
+  <meta name="twitter:description" content="Tips, guides, and waste management advice from the Quick Haulers team.">
+  <meta name="twitter:image" content="Quick-Haulers.jpeg">
+
+  <!-- Blog Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "Quick Haulers Blog",
+    "url": "https://quickdumpsters.digidev.solutions/blog.html",
+    "description": "Dumpster rental tips, project guides, and waste management advice for Long Island homeowners and contractors.",
+    "publisher": {
+      "@type": "LocalBusiness",
+      "name": "Quick Haulers",
+      "url": "https://quickdumpsters.digidev.solutions/"
+    }
+  }
+  </script>
+
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --clr-accent:    #7c5cbf;
+      --clr-accent-dk: #6344a8;
+      --clr-dark:      #1e1b2e;
+      --clr-mid:       #3a3a3a;
+      --clr-light:     #f5f5f5;
+      --clr-white:     #ffffff;
+      --clr-border:    #e0e0e0;
+      --clr-gray:      #6b6b6b;
+      --font-main:     'Segoe UI', Arial, sans-serif;
+      --radius:        8px;
+      --shadow:        0 4px 18px rgba(0,0,0,.10);
+      --transition:    .25s ease;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-main);
+      color: var(--clr-dark);
+      background: var(--clr-white);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ===== UTILITY ===== */
+    .container { width: min(92%, 1140px); margin-inline: auto; }
+    .btn {
+      display: inline-block;
+      padding: .75rem 1.8rem;
+      border-radius: var(--radius);
+      font-weight: 700;
+      font-size: .95rem;
+      cursor: pointer;
+      transition: background var(--transition), transform var(--transition);
+      border: none;
+    }
+    .btn-primary { background: var(--clr-accent); color: var(--clr-white); }
+    .btn-primary:hover { background: var(--clr-accent-dk); transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent;
+      color: var(--clr-white);
+      border: 2px solid var(--clr-white);
+    }
+    .btn-outline:hover { background: var(--clr-white); color: var(--clr-dark); transform: translateY(-2px); }
+    .section-label {
+      display: inline-block;
+      font-size: .8rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--clr-accent);
+      margin-bottom: .5rem;
+    }
+    .section-title {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 800;
+      color: var(--clr-dark);
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+    .section-sub {
+      color: var(--clr-gray);
+      max-width: 600px;
+      font-size: 1.05rem;
+    }
+
+    /* ===== NAV ===== */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      background: var(--clr-dark);
+      box-shadow: 0 2px 12px rgba(0,0,0,.25);
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 0;
+    }
+    .logo {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--clr-white);
+      letter-spacing: -.02em;
+    }
+    .logo span { color: var(--clr-accent); }
+    .nav-links {
+      display: none;
+      list-style: none;
+      gap: 2rem;
+    }
+    .nav-links a {
+      color: #ccc;
+      font-size: .92rem;
+      font-weight: 600;
+      letter-spacing: .03em;
+      transition: color var(--transition);
+    }
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--clr-accent); }
+    .nav-cta { white-space: nowrap; }
+    .hamburger {
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--clr-white);
+      border-radius: 2px;
+      transition: all var(--transition);
+    }
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      background: var(--clr-dark);
+      padding: .75rem 1.2rem 1.2rem;
+      gap: .9rem;
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+    .mobile-menu a {
+      color: #ccc;
+      font-size: .95rem;
+      font-weight: 600;
+      transition: color var(--transition);
+    }
+    .mobile-menu a:hover,
+    .mobile-menu a.active { color: var(--clr-accent); }
+    .mobile-menu.open { display: flex; }
+    @media(min-width:768px) {
+      .nav-links { display: flex; }
+      .hamburger { display: none; }
+      #nav-cta-desktop { display: inline-block !important; }
+    }
+
+    /* ===== BLOG HERO ===== */
+    .blog-hero {
+      background: linear-gradient(135deg, #1e1b2e 0%, #2e2650 60%, #1e1b2e 100%);
+      color: var(--clr-white);
+      padding: 5rem 0 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .blog-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 80% 50%, rgba(124,92,191,.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .blog-hero-inner { position: relative; z-index: 1; }
+    .blog-hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: rgba(124,92,191,.18);
+      border: 1px solid rgba(124,92,191,.4);
+      color: var(--clr-accent);
+      font-size: .8rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: .35rem .9rem;
+      border-radius: 50px;
+      margin-bottom: 1.2rem;
+    }
+    .blog-hero h1 {
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      font-weight: 900;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+      letter-spacing: -.02em;
+    }
+    .blog-hero h1 span { color: var(--clr-accent); }
+    .blog-hero p {
+      color: #ccc;
+      font-size: clamp(.95rem, 2.5vw, 1.1rem);
+      max-width: 520px;
+    }
+
+    /* ===== FILTER BAR ===== */
+    .filter-bar {
+      background: var(--clr-white);
+      border-bottom: 1px solid var(--clr-border);
+      padding: 1rem 0;
+      position: sticky;
+      top: 64px;
+      z-index: 90;
+    }
+    .filter-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .filter-count {
+      font-size: .9rem;
+      color: var(--clr-gray);
+      font-weight: 600;
+    }
+    .filter-count span { color: var(--clr-accent); font-weight: 800; }
+    #search-input {
+      padding: .5rem 1rem;
+      border: 1.5px solid var(--clr-border);
+      border-radius: 50px;
+      font-size: .9rem;
+      font-family: var(--font-main);
+      color: var(--clr-dark);
+      width: 220px;
+      transition: border-color var(--transition);
+      outline: none;
+    }
+    #search-input:focus { border-color: var(--clr-accent); }
+
+    /* ===== POSTS GRID ===== */
+    .posts-section { padding: 3.5rem 0 5rem; background: var(--clr-light); }
+    .posts-grid {
+      display: grid;
+      gap: 1.8rem;
+      grid-template-columns: 1fr;
+    }
+    @media(min-width:600px) { .posts-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media(min-width:900px) { .posts-grid { grid-template-columns: repeat(3, 1fr); } }
+
+    /* ===== POST CARD ===== */
+    .post-card {
+      background: var(--clr-white);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform var(--transition), box-shadow var(--transition);
+      border-top: 4px solid transparent;
+    }
+    .post-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 32px rgba(0,0,0,.13);
+      border-top-color: var(--clr-accent);
+    }
+    .post-thumb {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      background: var(--clr-border);
+    }
+    .post-thumb-placeholder {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: linear-gradient(135deg, #2e2650 0%, #7c5cbf 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+    }
+    .post-body { padding: 1.4rem 1.6rem 1.8rem; display: flex; flex-direction: column; flex: 1; gap: .6rem; }
+    .post-meta {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      flex-wrap: wrap;
+    }
+    .post-cat {
+      font-size: .73rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--clr-white);
+      background: var(--clr-accent);
+      padding: .2rem .65rem;
+      border-radius: 50px;
+    }
+    .post-date {
+      font-size: .8rem;
+      color: var(--clr-gray);
+    }
+    .post-title {
+      font-size: 1.08rem;
+      font-weight: 800;
+      color: var(--clr-dark);
+      line-height: 1.35;
+      transition: color var(--transition);
+    }
+    .post-card:hover .post-title { color: var(--clr-accent); }
+    .post-excerpt {
+      font-size: .88rem;
+      color: var(--clr-gray);
+      line-height: 1.6;
+      flex: 1;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .post-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: .5rem;
+    }
+    .post-author {
+      font-size: .8rem;
+      color: var(--clr-gray);
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+    .post-author::before { content: '✍️'; font-size: .85rem; }
+    .read-more {
+      font-size: .82rem;
+      font-weight: 700;
+      color: var(--clr-accent);
+      display: flex;
+      align-items: center;
+      gap: .3rem;
+      transition: gap var(--transition);
+    }
+    .read-more::after { content: '→'; }
+    .post-card:hover .read-more { gap: .55rem; }
+
+    /* ===== SKELETON LOADER ===== */
+    .skeleton {
+      background: var(--clr-white);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .skel-img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: #e8e8e8;
+      animation: shimmer 1.4s infinite;
+    }
+    .skel-body { padding: 1.4rem 1.6rem; display: flex; flex-direction: column; gap: .8rem; }
+    .skel-line {
+      height: 12px;
+      border-radius: 6px;
+      background: #e8e8e8;
+      animation: shimmer 1.4s infinite;
+    }
+    .skel-line.short { width: 40%; }
+    .skel-line.med { width: 70%; }
+    .skel-line.full { width: 100%; }
+    .skel-line.title { height: 18px; width: 85%; }
+    @keyframes shimmer {
+      0%   { background-color: #e8e8e8; }
+      50%  { background-color: #d0d0d0; }
+      100% { background-color: #e8e8e8; }
+    }
+
+    /* ===== ERROR / EMPTY STATES ===== */
+    .state-box {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 4rem 2rem;
+      background: var(--clr-white);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+    .state-box .state-icon { font-size: 3rem; margin-bottom: 1rem; }
+    .state-box h3 { font-size: 1.3rem; font-weight: 800; color: var(--clr-dark); margin-bottom: .5rem; }
+    .state-box p { color: var(--clr-gray); font-size: .95rem; max-width: 400px; margin: 0 auto 1.5rem; }
+
+    /* ===== LOAD MORE ===== */
+    .load-more-wrap { text-align: center; margin-top: 3rem; }
+    #load-more-btn {
+      padding: .85rem 2.5rem;
+      font-size: 1rem;
+    }
+    #load-more-btn:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* ===== BACK TO TOP ===== */
+    .back-to-top {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      margin-top: 3rem;
+      font-size: .85rem;
+      color: var(--clr-gray);
+      font-weight: 600;
+      transition: color var(--transition);
+    }
+    .back-to-top:hover { color: var(--clr-accent); }
+
+    /* ===== CTA STRIP ===== */
+    .cta-strip {
+      background: var(--clr-dark);
+      color: var(--clr-white);
+      padding: 4rem 0;
+      text-align: center;
+    }
+    .cta-strip h2 { font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 900; margin-bottom: .75rem; }
+    .cta-strip h2 span { color: var(--clr-accent); }
+    .cta-strip p { color: #aaa; margin-bottom: 1.8rem; font-size: 1.02rem; }
+    .cta-strip .cta-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    /* ===== FOOTER ===== */
+    footer { background: #111; color: #aaa; padding: 2.5rem 0; }
+    .footer-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+      text-align: center;
+    }
+    @media(min-width:600px) {
+      .footer-inner { flex-direction: row; justify-content: space-between; text-align: left; }
+    }
+    .footer-logo { font-size: 1.2rem; font-weight: 900; color: var(--clr-white); }
+    .footer-logo span { color: var(--clr-accent); }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 1.2rem; justify-content: center; }
+    .footer-links a { font-size: .85rem; color: #888; transition: color var(--transition); }
+    .footer-links a:hover { color: var(--clr-accent); }
+    .footer-copy { font-size: .8rem; color: #555; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER / NAV ===== -->
+  <header>
+    <div class="container">
+      <nav>
+        <a href="index.html" class="logo">Quick<span>Haulers</span></a>
+        <ul class="nav-links">
+          <li><a href="index.html#about">About</a></li>
+          <li><a href="index.html#services">Services</a></li>
+          <li><a href="index.html#prices">Pricing</a></li>
+          <li><a href="index.html#area">Service Area</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+          <li><a href="blog.html" class="active">Blog</a></li>
+        </ul>
+        <a href="tel:6313155555" class="btn btn-primary nav-cta" style="display:none;" id="nav-cta-desktop">(631) 315-5555</a>
+        <button class="hamburger" id="hamburger" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </nav>
+    </div>
+    <nav class="mobile-menu" id="mobile-menu">
+      <a href="index.html#about" onclick="closeMobileMenu()">About</a>
+      <a href="index.html#services" onclick="closeMobileMenu()">Services</a>
+      <a href="index.html#prices" onclick="closeMobileMenu()">Pricing</a>
+      <a href="index.html#area" onclick="closeMobileMenu()">Service Area</a>
+      <a href="index.html#contact" onclick="closeMobileMenu()">Contact</a>
+      <a href="blog.html" class="active" onclick="closeMobileMenu()">Blog</a>
+      <a href="tel:6313155555" style="color: var(--clr-accent); margin-top:.5rem;">📞 (631) 315-5555</a>
+    </nav>
+  </header>
+
+  <!-- ===== BLOG HERO ===== -->
+  <section class="blog-hero">
+    <div class="container">
+      <div class="blog-hero-inner">
+        <div class="blog-hero-badge">📰 Quick Haulers Blog</div>
+        <h1>Tips, Guides &amp; <span>Local Know-How</span></h1>
+        <p>Dumpster rental advice, project how-tos, and waste management insights for Long Island homeowners and contractors.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FILTER BAR ===== -->
+  <div class="filter-bar" id="filter-bar">
+    <div class="container">
+      <div class="filter-inner">
+        <p class="filter-count" id="filter-count">Loading posts&hellip;</p>
+        <input type="text" id="search-input" placeholder="Search posts…" aria-label="Search posts">
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== POSTS GRID ===== -->
+  <section class="posts-section">
+    <div class="container">
+      <div class="posts-grid" id="posts-grid">
+        <!-- Skeleton cards shown while loading -->
+        <div class="skeleton">
+          <div class="skel-img"></div>
+          <div class="skel-body">
+            <div class="skel-line short"></div>
+            <div class="skel-line title"></div>
+            <div class="skel-line full"></div>
+            <div class="skel-line med"></div>
+          </div>
+        </div>
+        <div class="skeleton">
+          <div class="skel-img"></div>
+          <div class="skel-body">
+            <div class="skel-line short"></div>
+            <div class="skel-line title"></div>
+            <div class="skel-line full"></div>
+            <div class="skel-line med"></div>
+          </div>
+        </div>
+        <div class="skeleton">
+          <div class="skel-img"></div>
+          <div class="skel-body">
+            <div class="skel-line short"></div>
+            <div class="skel-line title"></div>
+            <div class="skel-line full"></div>
+            <div class="skel-line med"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Load More -->
+      <div class="load-more-wrap" id="load-more-wrap" style="display:none;">
+        <button class="btn btn-primary" id="load-more-btn">Load More Posts</button>
+      </div>
+
+      <!-- Back to top -->
+      <div style="text-align:center;">
+        <a href="#" class="back-to-top">↑ Back to top</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA STRIP ===== -->
+  <section class="cta-strip">
+    <div class="container">
+      <h2>Ready to Book Your <span>Dumpster?</span></h2>
+      <p>Same-day delivery across Long Island. No hidden fees. No hassle.</p>
+      <div class="cta-actions">
+        <a href="index.html#contact" class="btn btn-primary">Get a Free Quote</a>
+        <a href="tel:6313155555" class="btn btn-outline">📞 (631) 315-5555</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-logo">Quick<span>Haulers</span></div>
+        <nav class="footer-links">
+          <a href="index.html#about">About</a>
+          <a href="index.html#services">Services</a>
+          <a href="index.html#prices">Pricing</a>
+          <a href="index.html#area">Service Area</a>
+          <a href="index.html#contact">Contact</a>
+          <a href="blog.html">Blog</a>
+          <a href="tel:6313155555">(631) 315-5555</a>
+        </nav>
+        <p class="footer-copy">&copy; 2026 Quick Haulers. Long Island, NY.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script>
+    /* ─────────────────────────────────────────────────────────
+       CONFIGURATION — change WP_API_URL to your WordPress site
+       e.g. "https://quickdumpsters.digidev.solutions/wp-json/wp/v2"
+           or "https://blog.quickhaulers.com/wp-json/wp/v2"
+    ───────────────────────────────────────────────────────── */
+     const WP_API_URL = 'https://quickdumpsters.digidev.solutions/wp-json/wp/v2';
+    const POSTS_PER_PAGE = 9;
+
+    /* ── State ── */
+    let currentPage  = 1;
+    let totalPages   = 1;
+    let allPosts     = [];
+    let filteredPosts = [];
+    let searchQuery  = '';
+
+    /* ── DOM refs ── */
+    const grid         = document.getElementById('posts-grid');
+    const filterCount  = document.getElementById('filter-count');
+    const loadMoreWrap = document.getElementById('load-more-wrap');
+    const loadMoreBtn  = document.getElementById('load-more-btn');
+    const searchInput  = document.getElementById('search-input');
+
+    /* ── Hamburger ── */
+    document.addEventListener('DOMContentLoaded', function() {
+      var hamburger  = document.getElementById('hamburger');
+      var mobileMenu = document.getElementById('mobile-menu');
+      if (hamburger && mobileMenu) {
+        hamburger.addEventListener('click', function() {
+          mobileMenu.classList.toggle('open');
+        });
+      }
+    });
+    function closeMobileMenu() { mobileMenu.classList.remove('open'); }
+
+    /* ── Fetch posts from WordPress REST API ── */
+    async function fetchPosts(page = 1) {
+      try {
+        const url = `${WP_API_URL}/posts?_embed&per_page=${POSTS_PER_PAGE}&page=${page}&orderby=date&order=desc`;
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
+        const res = await fetch(url, { signal: controller.signal, mode: 'cors' });
+        clearTimeout(timeoutId);
+
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+        totalPages = parseInt(res.headers.get('X-WP-TotalPages') || '1');
+        const total = parseInt(res.headers.get('X-WP-Total') || '0');
+        const posts = await res.json();
+        return { posts, total, totalPages };
+
+      } catch (err) {
+        console.error('WordPress API error:', err);
+        return null;
+      }
+    }
+
+    /* ── Extract featured image ── */
+    function getFeaturedImage(post) {
+      try {
+        return post._embedded?.['wp:featuredmedia']?.[0]?.media_details?.sizes?.medium_large?.source_url
+          || post._embedded?.['wp:featuredmedia']?.[0]?.source_url
+          || null;
+      } catch { return null; }
+    }
+
+    /* ── Extract category name ── */
+    function getCategory(post) {
+      try {
+        return post._embedded?.['wp:term']?.[0]?.[0]?.name || 'Tips';
+      } catch { return 'Tips'; }
+    }
+
+    /* ── Extract author name ── */
+    function getAuthor(post) {
+      try {
+        return post._embedded?.author?.[0]?.name || 'Quick Haulers';
+      } catch { return 'Quick Haulers'; }
+    }
+
+    /* ── Strip HTML tags ── */
+    function stripHtml(html) {
+      const tmp = document.createElement('div');
+      tmp.innerHTML = html;
+      return tmp.textContent || tmp.innerText || '';
+    }
+
+    /* ── Format date ── */
+    function formatDate(dateStr) {
+      const d = new Date(dateStr);
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    /* ── Build a single post card ── */
+    function buildCard(post) {
+      const img      = getFeaturedImage(post);
+      const cat      = getCategory(post);
+      const author   = getAuthor(post);
+      const date     = formatDate(post.date);
+      const title    = post.title?.rendered || 'Untitled Post';
+      const excerpt  = stripHtml(post.excerpt?.rendered || '').trim();
+      const link     = post.link || '#';
+
+      const imgHTML = img
+        ? `<img class="post-thumb" src="${img}" alt="${title.replace(/"/g, '&quot;')}" loading="lazy">`
+        : `<div class="post-thumb-placeholder">🗑️</div>`;
+
+      return `
+        <article class="post-card">
+          <a href="${link}" target="_blank" rel="noopener" aria-label="Read: ${title.replace(/"/g, '&quot;')}">
+            ${imgHTML}
+          </a>
+          <div class="post-body">
+            <div class="post-meta">
+              <span class="post-cat">${cat}</span>
+              <span class="post-date">${date}</span>
+            </div>
+            <a href="${link}" target="_blank" rel="noopener">
+              <h2 class="post-title">${title}</h2>
+            </a>
+            <p class="post-excerpt">${excerpt}</p>
+            <div class="post-footer">
+              <span class="post-author">${author}</span>
+              <a href="${link}" target="_blank" rel="noopener" class="read-more">Read More</a>
+            </div>
+          </div>
+        </article>`;
+    }
+
+    /* ── Render cards to grid ── */
+    function renderCards(posts, append = false) {
+      if (!append) grid.innerHTML = '';
+
+      if (posts.length === 0 && !append) {
+        grid.innerHTML = `
+          <div class="state-box">
+            <div class="state-icon">📭</div>
+            <h3>No posts found</h3>
+            <p>Try a different search term, or check back soon for new content.</p>
+            <button class="btn btn-primary" onclick="clearSearch()">Clear Search</button>
+          </div>`;
+        filterCount.innerHTML = 'No posts found';
+        loadMoreWrap.style.display = 'none';
+        return;
+      }
+
+      posts.forEach(post => {
+        grid.insertAdjacentHTML('beforeend', buildCard(post));
+      });
+    }
+
+    /* ── Show error state ── */
+    function showError() {
+      grid.innerHTML = `
+        <div class="state-box">
+          <div class="state-icon">⚠️</div>
+          <h3>Couldn't load posts</h3>
+          <p>There was a problem connecting to the blog. Please check back in a moment.</p>
+          <button class="btn btn-primary" onclick="initBlog()">Try Again</button>
+        </div>`;
+      filterCount.innerHTML = 'Could not load posts';
+      loadMoreWrap.style.display = 'none';
+    }
+
+    /* ── Client-side search filter ── */
+    function applySearch() {
+      searchQuery = searchInput.value.trim().toLowerCase();
+      if (!searchQuery) {
+        filteredPosts = [...allPosts];
+      } else {
+        filteredPosts = allPosts.filter(p => {
+          const title   = stripHtml(p.title?.rendered || '').toLowerCase();
+          const excerpt = stripHtml(p.excerpt?.rendered || '').toLowerCase();
+          const content = stripHtml(p.content?.rendered || '').toLowerCase();
+          return title.includes(searchQuery) || excerpt.includes(searchQuery) || content.includes(searchQuery);
+        });
+      }
+      renderCards(filteredPosts);
+      filterCount.innerHTML = searchQuery
+        ? `<span>${filteredPosts.length}</span> result${filteredPosts.length !== 1 ? 's' : ''} for "<em>${searchQuery}</em>"`
+        : `Showing <span>${allPosts.length}</span> post${allPosts.length !== 1 ? 's' : ''}`;
+      loadMoreWrap.style.display = (!searchQuery && currentPage < totalPages) ? 'block' : 'none';
+    }
+
+    function clearSearch() {
+      searchInput.value = '';
+      applySearch();
+    }
+
+    /* ── Load more ── */
+    loadMoreBtn.addEventListener('click', async () => {
+      loadMoreBtn.textContent = 'Loading…';
+      loadMoreBtn.disabled = true;
+      currentPage++;
+      const result = await fetchPosts(currentPage);
+      if (result) {
+        allPosts = [...allPosts, ...result.posts];
+        renderCards(result.posts, true);
+        filterCount.innerHTML = `Showing <span>${allPosts.length}</span> post${allPosts.length !== 1 ? 's' : ''}`;
+        if (currentPage >= totalPages) {
+          loadMoreWrap.style.display = 'none';
+        } else {
+          loadMoreBtn.textContent = 'Load More Posts';
+          loadMoreBtn.disabled = false;
+        }
+      } else {
+        loadMoreBtn.textContent = 'Load More Posts';
+        loadMoreBtn.disabled = false;
+      }
+    });
+
+    /* ── Search debounce ── */
+    let searchTimer;
+    searchInput.addEventListener('input', () => {
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(applySearch, 280);
+    });
+
+    /* ── Init ── */
+    async function initBlog() {
+      grid.innerHTML = `
+        ${'<div class="skeleton"><div class="skel-img"></div><div class="skel-body"><div class="skel-line short"></div><div class="skel-line title"></div><div class="skel-line full"></div><div class="skel-line med"></div></div></div>'.repeat(3)}`;
+      filterCount.innerHTML = 'Loading posts&hellip;';
+
+      const result = await fetchPosts(1);
+
+      if (!result) { showError(); return; }
+
+      currentPage  = 1;
+      totalPages   = result.totalPages;
+      allPosts     = result.posts;
+      filteredPosts = [...allPosts];
+
+      renderCards(allPosts);
+
+      filterCount.innerHTML = `Showing <span>${allPosts.length}</span> post${allPosts.length !== 1 ? 's' : ''}`;
+
+      if (totalPages > 1) {
+        loadMoreWrap.style.display = 'block';
+        loadMoreBtn.textContent = 'Load More Posts';
+        loadMoreBtn.disabled = false;
+      }
+    }
+
+    initBlog();
+  </script>
+</body>
+</html>
