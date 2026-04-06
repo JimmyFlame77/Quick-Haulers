@@ -41,7 +41,7 @@ extra_head: |
 <div class="filter-bar" id="filter-bar">
   <div class="container">
     <div class="filter-inner">
-      <p class="filter-count" id="filter-count">Showing <span>{{ site.posts | size }}</span> post{{ site.posts | size | minus: 1 | at_least: 1 | times: 0 | plus: site.posts.size }}{% if site.posts.size != 1 %}s{% endif %}</p>
+      <p class="filter-count" id="filter-count">Showing <span>{{ site.posts | size }}</span> post{% if site.posts.size != 1 %}s{% endif %}</p>
       <input type="text" id="search-input" placeholder="Search posts…" aria-label="Search posts">
     </div>
   </div>
