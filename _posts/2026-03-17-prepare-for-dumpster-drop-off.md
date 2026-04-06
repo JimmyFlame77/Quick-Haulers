@@ -4,7 +4,7 @@ title: "How to Prepare for Your Dumpster Drop-Off"
 date: 2026-03-17
 category: "Guides"
 author: "Quick Haulers"
-image: "/assets/images/blog/placeholder.jpg"
+image: "/assets/images/blog/placeholder.webp"
 excerpt: "A quick guide to getting your property ready before the dumpster arrives — placement tips, access requirements, and what to expect on delivery day."
 description: "How to prepare your driveway and property for a dumpster delivery on Long Island. Placement tips, access needs, and what to expect from Quick Haulers."
 ---

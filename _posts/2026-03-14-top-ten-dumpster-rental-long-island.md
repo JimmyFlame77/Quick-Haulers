@@ -4,7 +4,7 @@ title: "Top 10 Reasons for a Dumpster Rental in Long Island"
 date: 2026-03-14
 category: "Tips"
 author: "Quick Haulers"
-image: "/assets/images/blog/placeholder.jpg"
+image: "/assets/images/blog/placeholder.webp"
 excerpt: "From home renovations to storm cleanups, here are the top ten reasons Long Island homeowners and contractors book a dumpster rental."
 description: "Top 10 reasons to rent a dumpster on Long Island — home renovations, estate cleanouts, landscaping, roofing, and more. Quick Haulers delivers same-day across the East End."
 ---

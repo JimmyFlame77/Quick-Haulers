@@ -4,7 +4,7 @@ title: "The Ultimate Cleanout Guide: Dumpster Rentals that Save Money"
 date: 2026-03-23
 category: "Guides"
 author: "Quick Haulers"
-image: "/assets/images/blog/placeholder.jpg"
+image: "/assets/images/blog/placeholder.webp"
 excerpt: "Cleanouts don't have to break the bank. Learn how to plan your project, choose the right dumpster size, and avoid common mistakes that cost extra."
 description: "The ultimate guide to saving money on dumpster rentals for cleanouts on Long Island. Size selection, planning tips, and cost-saving strategies from Quick Haulers."
 ---

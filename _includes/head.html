@@ -14,15 +14,16 @@
   {% if page.canonical %}<meta property="og:url" content="{{ page.canonical }}">{% endif %}
   <meta property="og:locale" content="en_US">
 
-  {% if page.og_image %}<meta property="og:image" content="{{ page.og_image }}">{% endif %}
+  <meta property="og:image" content="{{ page.og_image | default: '/assets/images/og-image.jpg' | relative_url }}">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{ page.twitter_title | default: page.og_title | default: page.title }}">
   <meta name="twitter:description" content="{{ page.twitter_description | default: page.og_description | default: page.description }}">
-  {% if page.twitter_image %}<meta name="twitter:image" content="{{ page.twitter_image }}">{% elsif page.og_image %}<meta name="twitter:image" content="{{ page.og_image }}">{% endif %}
+  <meta name="twitter:image" content="{{ page.twitter_image | default: page.og_image | default: '/assets/images/og-image.jpg' | relative_url }}">
 
   <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="{{ '/assets/images/favicon.svg' | relative_url }}">
   <link rel="icon" type="image/jpeg" href="{{ '/assets/images/favicon.jpg' | relative_url }}">
   <link rel="apple-touch-icon" href="{{ '/assets/images/favicon.jpg' | relative_url }}">
 
