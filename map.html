@@ -147,13 +147,20 @@ extra_head: |
     popupAnchor:[0, -12]
   });
 
+  var baseUrl = '{{ site.baseurl }}';
   AREA_COORDS.forEach(function(area) {
+    var fullUrl = baseUrl + '/' + area.url;
     var marker = L.marker([area.lat, area.lng], {icon: qhIcon}).addTo(map);
     var popupHTML = '<div class="qh-popup">'
       + '<strong>' + area.name + '</strong>'
-      + '<a href="' + area.url + '">View Pricing & Info →</a>'
+      + '<a href="' + fullUrl + '">View Pricing & Info →</a>'
       + '</div>';
     marker.bindPopup(popupHTML, { maxWidth: 210 });
+
+    // Open popup on hover
+    marker.on('mouseover', function() { this.openPopup(); });
+    // Click navigates to the area page
+    marker.on('click', function() { window.location.href = fullUrl; });
   });
 
   map.on('click', function() { map.scrollWheelZoom.enable(); });
