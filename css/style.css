@@ -1284,4 +1284,9 @@ footer {
   .article-hero-img-wrap { aspect-ratio: 16/9; }
   .article-nav { flex-direction: column; gap: 1rem; }
   .article-nav-next { text-align: left; }
+  .article-nav-title {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+  }
 }
