@@ -14,6 +14,8 @@ Whether you're clearing out a deceased relative's estate, downsizing before a mo
 
 Before you book anything, do a room-by-room walkthrough of the space you're clearing. Make rough piles — keep, donate, trash. This gives you a realistic sense of volume and helps you choose the right dumpster size the first time, avoiding the cost of a swap or second delivery.
 
+  
+
 Metals in particular are worth separating. Copper pipe, steel framing, and aluminum fixtures all have recycling value, and many haulers — including us — will sort them at no extra charge. Even if you don't separate materials yourself, grouping similar items together makes loading faster and helps you maximize every square foot of dumpster space.
 
 ## Choose the Right Size
