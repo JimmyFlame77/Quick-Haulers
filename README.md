@@ -324,3 +324,8 @@ The `_blog-config.json` file in the repo root enables this site in the [Proxy Bl
 ```
 
 Adjust `imagesPath` to match your site's image directory and `categories` to match your content categories.
+
+---
+
+### BlogPosting Schema
+Every blog post automatically includes `BlogPosting` JSON-LD structured data (schema.org). This is generated in `_layouts/post.html` using front matter fields (title, date, author, description, image). No manual setup needed — any post published through the Proxy Blog Dashboard or added to `_posts/` gets rich result eligibility in Google automatically. When building new sites with this framework, include the BlogPosting schema block in `_layouts/post.html` to maintain this behavior.
