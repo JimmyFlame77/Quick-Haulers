@@ -24,6 +24,6 @@
   page_anchor: "#contact"
 
 - label: "Blog"
-  index_url: "blog.html"
+  index_url: "/blog/"
   page_base: "blog.html"
   page_anchor: ""
