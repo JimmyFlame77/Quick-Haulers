@@ -24,6 +24,6 @@
   page_anchor: "#contact"
 
 - label: "Blog"
-  index_url: "/Quick-Haulers/blog/"
+  index_url: "/Quick-Haulers/blog.html"
   page_base: "blog.html"
   page_anchor: ""
