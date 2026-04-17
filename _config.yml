@@ -5,7 +5,7 @@ baseurl: "/Quick-Haulers"
 
 # Build settings
 markdown: kramdown
-permalink: none
+permalink: pretty
 
 # Exclude from build
 exclude:
