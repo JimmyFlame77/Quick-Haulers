@@ -39,9 +39,9 @@
   dimensions: "16'L &times; 8'W &times; 5'H"
   featured: false
   badge: null
-  payment_embed: false
-  payment_amount: ""
-  payment_data: ""
+  payment_embed: true
+  payment_amount: "775"
+  payment_data: "eyJkYmFJZCI6IjMzODI1OCIsInRlcm1pbmFsSWQiOiI3OTMyMDgiLCJ0aHJlZWRzIjoiRGlzYWJsZWQiLCJyZXR1cm5VcmwiOiIiLCJyZXR1cm5VcmxOYXZpZ2F0aW9uIjoidG9wIiwibG9nbyI6bnVsbCwidmlzaWJsZU5vdGUiOm51bGwsInJlcXVlc3RDb250YWN0SW5mbyI6bnVsbCwicmVxdWVzdEJpbGxpbmdJbmZvIjpudWxsLCJyZXF1ZXN0U2hpcHBpbmdJbmZvIjpudWxsLCJzZW5kUmVjZWlwdCI6bnVsbCwib3JpZ2luIjoiSG9zdGVkRm9ybSIsImhhc2giOiIyNmIwMzZlODM0MGY1ZTZmYTNiYmQ2NjRkODQzNDk4ZiJ9"
   features:
     - "Up to 2 weeks included"
     - "Major home renovations"
