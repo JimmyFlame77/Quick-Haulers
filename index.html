@@ -250,7 +250,7 @@ is_index: true
           </div>
         </div>
       </div>
-      <div class="contact-form">
+      <form class="contact-form" id="contact-form" novalidate>
         <h3>Request a Free Quote</h3>
         <div class="form-row">
           <div class="form-group">
@@ -287,7 +287,50 @@ is_index: true
           <textarea id="message" name="message" placeholder="Describe your project, location, preferred delivery date..."></textarea>
         </div>
         <button type="submit" class="btn btn-primary form-submit">Send My Free Quote Request</button>
-      </div>
+      </form>
     </div>
   </div>
 </section>
+
+<script>
+(function () {
+  var form = document.getElementById('contact-form');
+  if (!form) return;
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    var fname   = (document.getElementById('fname').value   || '').trim();
+    var lname   = (document.getElementById('lname').value   || '').trim();
+    var phone   = (document.getElementById('phone').value   || '').trim();
+    var email   = (document.getElementById('email').value   || '').trim();
+    var size    = (document.getElementById('size').value    || '').trim();
+    var message = (document.getElementById('message').value || '').trim();
+
+    // Basic required-field guard
+    if (!fname || !lname || !phone) {
+      alert('Please fill in your first name, last name, and phone number.');
+      return;
+    }
+
+    var sizeLabel = size === '10'    ? '10-Yard'
+                  : size === '15'   ? '15-Yard'
+                  : size === '20'   ? '20-Yard'
+                  : size === 'unsure' ? 'Not Sure — Need Advice'
+                  : 'Not specified';
+
+    var subject = encodeURIComponent('Quick Haulers Quote Request — ' + fname + ' ' + lname);
+
+    var body = encodeURIComponent(
+      'New quote request from the Quick Haulers website:\n\n' +
+      'Name:    ' + fname + ' ' + lname + '\n' +
+      'Phone:   ' + (phone   || 'Not provided') + '\n' +
+      'Email:   ' + (email   || 'Not provided') + '\n' +
+      'Size:    ' + sizeLabel + '\n\n' +
+      'Message:\n' + (message || 'No message provided.')
+    );
+
+    window.location.href = 'mailto:info@quickhaulers.co?subject=' + subject + '&body=' + body;
+  });
+}());
+</script>
