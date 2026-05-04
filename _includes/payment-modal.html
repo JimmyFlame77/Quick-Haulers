@@ -40,6 +40,8 @@
   -webkit-backdrop-filter: blur(3px);
   cursor: pointer;
 }
+
+/* ===== DESKTOP ===== */
 .pm-panel {
   position: relative;
   z-index: 1;
@@ -64,7 +66,7 @@
   justify-content: space-between;
   gap: 1rem;
   padding: 1.5rem 1.5rem 1.2rem;
-  border-bottom: 1px solid #e8e8e8;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
   flex-shrink: 0;
   background: var(--clr-dark, #1e1b2e);
   color: #fff;
@@ -118,27 +120,45 @@
   display: block !important;
 }
 
-/* Mobile — full-screen bottom sheet */
+/* ===== MOBILE — single scroll region ===== */
 @media (max-width: 600px) {
   #payment-modal {
     align-items: flex-end;
   }
+
+  /* Panel fills full screen, scrolls as one unit */
   .pm-panel {
     width: 100%;
-    height: 96vh;
-    max-height: 96vh;
+    height: 100dvh;
+    max-height: 100dvh;
     border-radius: 20px 20px 0 0;
     transform: translateY(100%);
+    /* Single scroll: panel itself scrolls, not pm-body */
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    display: block; /* override flex so header sticks naturally */
   }
+
   #payment-modal.is-open .pm-panel {
     transform: translateY(0);
   }
+
+  /* Header sticks to top as user scrolls through the form */
   .pm-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
     border-radius: 20px 20px 0 0;
   }
+
+  /* Body no longer needs its own scroll */
   .pm-body {
-    padding: 1.25rem 1rem 2rem;
+    overflow-y: visible;
+    padding: 1.25rem 1rem 3rem;
   }
+
+  /* Iframe taller on mobile to reduce clipping */
   #payment-form iframe {
     height: 800px !important;
     min-height: 800px !important;
@@ -171,16 +191,12 @@
   }
 
   function loadGateway(optionsData, amount) {
-    // Wipe any previous gateway instance
     formWrap.innerHTML = '';
-
     var options = { data: optionsData, amount: amount, feeType: 'amount' };
-
     var init = function () {
       new PaymentGateway({ target: 'payment-form', options: options });
       forceIframeHeight();
     };
-
     if (typeof window.PaymentGateway === 'undefined') {
       window.webroot = 'https://dashboard.maverickpayments.com';
       var s = document.createElement('script');
@@ -198,11 +214,13 @@
     var title   = trigger.getAttribute('data-title') || 'Book Your Dumpster';
     var amount  = trigger.getAttribute('data-amount');
     var optData = trigger.getAttribute('data-options');
-
     modalTitle.textContent = title;
     modal.setAttribute('aria-hidden', 'false');
     modal.classList.add('is-open');
     document.body.style.overflow = 'hidden';
+    // Scroll panel back to top on each open
+    var panel = modal.querySelector('.pm-panel');
+    if (panel) panel.scrollTop = 0;
     closeBtn.focus();
     loadGateway(optData, amount);
   }
@@ -211,12 +229,10 @@
     modal.classList.remove('is-open');
     modal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
-    // Clear the form so a fresh gateway loads next open
     formWrap.innerHTML = '';
     if (lastTrigger) lastTrigger.focus();
   }
 
-  // Delegate click to all Book Now buttons (works for current + future cards)
   document.addEventListener('click', function (e) {
     var btn = e.target.closest('.open-payment-modal');
     if (btn) { openModal(btn); return; }
