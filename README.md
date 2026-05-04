@@ -15,7 +15,7 @@ This site uses Jekyll's `_data`, `_includes`, and `_layouts` system so that shar
 Quick-Haulers/
 ├── _config.yml                    # Site config (url, baseurl, plugins)
 ├── _data/
-│   ├── pricing.yml                # Dumpster sizes, prices, features
+│   ├── pricing.yml                # Dumpster sizes, prices, features, payment embed flags
 │   ├── services.yml               # Service callout card definitions
 │   ├── service_areas.yml          # All 28 service area links
 │   ├── navigation.yml             # Header/footer nav links
@@ -25,6 +25,7 @@ Quick-Haulers/
 │   ├── header.html                # Sticky nav, logo, hamburger, mobile menu
 │   ├── footer.html                # Footer (location + default variants)
 │   ├── pricing-cards.html         # Data-driven pricing card grid
+│   ├── payment-modal.html         # Maverick Payments gateway modal + JS
 │   ├── service-cards.html         # Data-driven service callout grid
 │   ├── cta-band.html              # Call-to-action band
 │   ├── area-tags.html             # Service area tag buttons
@@ -65,6 +66,21 @@ Edit **`_data/pricing.yml`**. Change the `price`, `dimensions`, `features`, `bad
   price: "597"          # ← change this one value
   ...
 ```
+
+### Enable or disable the Book Now button per card
+
+Each pricing card in **`_data/pricing.yml`** has three payment-related keys:
+
+```yaml
+payment_embed: true          # true = show "Book Now" button; false/absent = show "Call to Book"
+payment_amount: "505"        # amount in dollars (string), must match the Maverick gateway config
+payment_data: "eyJ..."       # base64-encoded options string from the Maverick Payments embed code
+```
+
+- Set `payment_embed: true` to show a **Book Now** button that opens the payment modal.
+- Omit `payment_embed` or set it to `false` to revert to the **Call to Book** phone link.
+- `payment_amount` and `payment_data` are passed directly to the Maverick Payments gateway — get these values from the Maverick dashboard when generating a new embed.
+- **To update a price:** change `price` (display only) AND `payment_amount` (what gets charged) together so they stay in sync.
 
 ### Update service callout cards everywhere
 
@@ -116,6 +132,68 @@ hours: "Mon–Sat 7 AM – 6 PM"
 - **Sitewide defaults:** `_config.yml` (title, description) and `_includes/head.html` (OG, Twitter Card structure).
 - **Per-page:** Each page's YAML front matter controls its `title`, `description`, `canonical`, `og_title`, `og_description`, etc.
 - **Schema markup:** `_includes/schema-local-business.html`, `schema-faq.html`, `schema-breadcrumb.html` — these pull from `_data/` and page front matter automatically.
+
+---
+
+## Payment Modal (Book Now)
+
+The **Book Now** button on each pricing card opens an inline payment modal powered by [Maverick Payments](https://dashboard.maverickpayments.com).
+
+### How it works
+
+1. **`_data/pricing.yml`** controls which cards show a Book Now button (`payment_embed: true`) and carries the gateway credentials (`payment_amount`, `payment_data`) for each card.
+2. **`_includes/pricing-cards.html`** renders a `<button class="open-payment-modal">` with three `data-` attributes: `data-title`, `data-amount`, and `data-options`. No IDs — any number of cards can coexist on the page.
+3. **`_includes/payment-modal.html`** contains the modal markup, all styles, and the gateway JS. It:
+   - Listens for clicks on any `.open-payment-modal` button via event delegation
+   - Updates the modal title from `data-title`
+   - Clears and reinitializes the Maverick gateway fresh on every open using `data-amount` and `data-options`
+   - Resets `formWrap.innerHTML` on both open and close to prevent bleed between cards
+   - On **desktop:** renders as a centered panel (`min(600px, 96vw)`, `92vh`)
+   - On **mobile:** renders as a full-screen bottom sheet (`100dvh`) with a single scroll region — the panel itself scrolls, the header sticks to the top
+
+### Adding a new card with Book Now
+
+In `_data/pricing.yml`, add these three keys to the card entry:
+
+```yaml
+payment_embed: true
+payment_amount: "505"       # must match the amount in the Maverick embed
+payment_data: "eyJ..."      # base64 options string from the Maverick embed snippet
+```
+
+No changes to any template files are needed — the modal JS picks up new buttons automatically.
+
+### Replacing the payment gateway
+
+To swap Maverick Payments for a different provider, replace the `loadGateway()` function in `_includes/payment-modal.html`. The modal open/close, sticky header, and scroll behavior are independent of the gateway and will continue to work.
+
+### Upgrading the contact form backend
+
+The contact form on `index.html` currently uses a `mailto:` fallback (see below). When a real form endpoint is ready, replace the submit handler's `window.location.href = 'mailto:...'` line with a `fetch()` POST to the new endpoint (Formspree, Netlify Forms, a custom API, etc.).
+
+---
+
+## Contact Form
+
+The **Request a Free Quote** form at the bottom of the homepage (`index.html`) is wired to a temporary `mailto:` handler.
+
+### How it works
+
+On submit, a JavaScript handler:
+1. Collects all field values (first name, last name, phone, email, dumpster size, message)
+2. Validates that first name, last name, and phone are filled
+3. Builds a pre-formatted `mailto:` link addressed to `info@quickhaulers.co` with a descriptive subject line and a plain-text body containing all form data
+4. Fires `window.location.href` to open the user's default email client with everything pre-populated
+
+**Note:** This is a temporary solution. The mailto approach opens the user's local email client and does not guarantee delivery or provide any server-side logging. Replace with a proper form backend when available (see *Replacing the payment gateway* above for context on the swap).
+
+### To update the recipient email
+
+In `index.html`, find the submit handler script at the bottom of the file and change the address in this line:
+
+```js
+window.location.href = 'mailto:info@quickhaulers.co?subject=' + subject + '&body=' + body;
+```
 
 ---
 
@@ -248,6 +326,10 @@ When migrating to a custom domain (e.g. `quickdumpsters.digidev.solutions`):
 | I want to change...             | Edit this file                          |
 |---------------------------------|-----------------------------------------|
 | Dumpster prices / sizes         | `_data/pricing.yml`                     |
+| Book Now button (enable/disable)| `_data/pricing.yml` (`payment_embed`)   |
+| Payment gateway credentials     | `_data/pricing.yml` (`payment_amount`, `payment_data`) |
+| Payment modal markup / behavior | `_includes/payment-modal.html`          |
+| Contact form recipient email    | `index.html` (submit handler script)    |
 | Service callout cards           | `_data/services.yml`                    |
 | Service area list               | `_data/service_areas.yml`               |
 | Phone number / hours            | `_data/site.yml`                        |
@@ -272,6 +354,7 @@ When migrating to a custom domain (e.g. `quickdumpsters.digidev.solutions`):
 ## Tech Stack
 
 - **Jekyll 3.10** (GitHub Pages compatible)
+- **Maverick Payments** for inline dumpster booking (payment modal)
 - **Leaflet.js** for the interactive service area map
 - **Vanilla JS** — no frameworks or build tools
 - **GitHub Pages** for hosting and CI/CD
@@ -295,8 +378,7 @@ Items to complete as the project progresses. Delete each item once done.
 - [ ] Verify sitemap.xml, canonical URLs, and OG tags reflect the new domain
 
 ### Contact / Order Form
-- [ ] Activate the quote form on `index.html` (Formspree, Stripe, or custom endpoint)
-- [ ] Build order form with dumpster size selection and Stripe payment integration
+- [ ] Replace `mailto:` fallback on homepage contact form with a real backend (Formspree, Netlify Forms, or custom endpoint)
 - [ ] Connect form pricing to `_data/pricing.yml` for consistency
 
 ### Blog Content
@@ -308,6 +390,11 @@ Items to complete as the project progresses. Delete each item once done.
 - [ ] Run Core Web Vitals audit once real traffic is flowing
 - [ ] Review and optimize page load performance
 - [ ] Compress/convert remaining images (logo.png) to WebP where beneficial
+
+### Payment Modal (Future)
+- [ ] Investigate `overscroll-behavior: contain` + `touch-action: pan-y` on `.pm-panel` to further reduce iOS scroll inertia on the mobile booking sheet
+- [ ] Confirm final charge amounts with client and verify they match `payment_amount` in `_data/pricing.yml`
+- [ ] Add a success/confirmation state to the modal after payment completes
 
 ---
 
