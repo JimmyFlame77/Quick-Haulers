@@ -1,0 +1,195 @@
+<!-- ===== PAYMENT MODAL ===== -->
+<div id="payment-modal" role="dialog" aria-modal="true" aria-labelledby="payment-modal-title" aria-hidden="true">
+  <div class="pm-overlay" id="payment-modal-overlay"></div>
+  <div class="pm-panel">
+    <div class="pm-header">
+      <div class="pm-header-text">
+        <h2 id="payment-modal-title">Book Your 10-Yard Dumpster</h2>
+        <p>Secure online booking &mdash; 10-Yard Dumpster Rental</p>
+      </div>
+      <button class="pm-close" id="close-payment-modal" aria-label="Close booking form">&times;</button>
+    </div>
+    <div class="pm-body">
+      <div id="payment-form"></div>
+    </div>
+  </div>
+</div>
+
+<style>
+/* ===== PAYMENT MODAL ===== */
+#payment-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+#payment-modal.is-open {
+  pointer-events: all;
+  opacity: 1;
+}
+.pm-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  cursor: pointer;
+}
+.pm-panel {
+  position: relative;
+  z-index: 1;
+  background: #fff;
+  border-radius: 16px;
+  width: min(560px, 94vw);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.3);
+  transform: translateY(20px) scale(0.98);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  overflow: hidden;
+}
+#payment-modal.is-open .pm-panel {
+  transform: translateY(0) scale(1);
+}
+.pm-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.5rem 1.5rem 1.2rem;
+  border-bottom: 1px solid #e8e8e8;
+  flex-shrink: 0;
+  background: var(--clr-dark, #1e1b2e);
+  color: #fff;
+  border-radius: 16px 16px 0 0;
+}
+.pm-header-text h2 {
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.2;
+  margin: 0 0 0.25rem;
+}
+.pm-header-text p {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.65);
+  margin: 0;
+}
+.pm-close {
+  background: rgba(255,255,255,0.12);
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  line-height: 1;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  flex-shrink: 0;
+}
+.pm-close:hover { background: rgba(255,255,255,0.22); }
+.pm-body {
+  padding: 1.5rem;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  flex: 1;
+}
+#payment-form {
+  min-height: 80px;
+}
+
+/* Mobile — full-screen bottom sheet */
+@media (max-width: 600px) {
+  #payment-modal {
+    align-items: flex-end;
+  }
+  .pm-panel {
+    width: 100%;
+    max-height: 92vh;
+    border-radius: 20px 20px 0 0;
+    transform: translateY(100%);
+  }
+  #payment-modal.is-open .pm-panel {
+    transform: translateY(0);
+  }
+  .pm-header {
+    border-radius: 20px 20px 0 0;
+  }
+  .pm-body {
+    padding: 1.25rem 1rem 2rem;
+  }
+}
+</style>
+
+<script>
+(function () {
+  var modal = document.getElementById('payment-modal');
+  var openBtn = document.getElementById('open-payment-modal');
+  var closeBtn = document.getElementById('close-payment-modal');
+  var overlay = document.getElementById('payment-modal-overlay');
+  var gatewayLoaded = false;
+
+  function openModal() {
+    modal.removeAttribute('aria-hidden');
+    modal.setAttribute('aria-hidden', 'false');
+    modal.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    closeBtn.focus();
+    if (!gatewayLoaded) {
+      loadGateway();
+      gatewayLoaded = true;
+    }
+  }
+
+  function closeModal() {
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    if (openBtn) openBtn.focus();
+  }
+
+  function loadGateway() {
+    var options = {"data":"eyJkYmFJZCI6IjMzODI1OCIsInRlcm1pbmFsSWQiOiI3OTMyMDgiLCJ0aHJlZWRzIjoiRGlzYWJsZWQiLCJyZXR1cm5VcmwiOiIiLCJyZXR1cm5VcmxOYXZpZ2F0aW9uIjoidG9wIiwibG9nbyI6bnVsbCwidmlzaWJsZU5vdGUiOm51bGwsInJlcXVlc3RDb250YWN0SW5mbyI6bnVsbCwicmVxdWVzdEJpbGxpbmdJbmZvIjpudWxsLCJyZXF1ZXN0U2hpcHBpbmdJbmZvIjpudWxsLCJzZW5kUmVjZWlwdCI6bnVsbCwib3JpZ2luIjoiSG9zdGVkRm9ybSIsImhhc2giOiIyNmIwMzZlODM0MGY1ZTZmYTNiYmQ2NjRkODQzNDk4ZiJ9","amount":"505","feeType":"amount"};
+
+    var init = function () {
+      new PaymentGateway({
+        target: "payment-form",
+        options: options
+      });
+    };
+
+    if (typeof window.PaymentGateway === 'undefined') {
+      window.webroot = "https://dashboard.maverickpayments.com";
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = window.webroot + '/js/gateway/payment.js?v=' + Date.now();
+      document.getElementsByTagName('head')[0].appendChild(s);
+      s.onload = s.onreadystatechange = function () { init(); };
+    } else {
+      init();
+    }
+  }
+
+  if (openBtn) openBtn.addEventListener('click', openModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  if (overlay) overlay.addEventListener('click', closeModal);
+
+  // Close on Escape key
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+      closeModal();
+    }
+  });
+}());
+</script>
