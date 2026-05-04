@@ -109,6 +109,14 @@
 #payment-form {
   min-height: 200px;
 }
+/* Force the injected iframe to fill available space */
+#payment-form iframe {
+  width: 100% !important;
+  height: 750px !important;
+  min-height: 750px !important;
+  border: none !important;
+  display: block !important;
+}
 
 /* Mobile — full-screen bottom sheet */
 @media (max-width: 600px) {
@@ -131,6 +139,10 @@
   .pm-body {
     padding: 1.25rem 1rem 2rem;
   }
+  #payment-form iframe {
+    height: 800px !important;
+    min-height: 800px !important;
+  }
 }
 </style>
 
@@ -141,6 +153,22 @@
   var closeBtn = document.getElementById('close-payment-modal');
   var overlay = document.getElementById('payment-modal-overlay');
   var gatewayLoaded = false;
+
+  function forceIframeHeight() {
+    // Poll until the iframe appears, then lock its height
+    var attempts = 0;
+    var interval = setInterval(function () {
+      var iframe = document.querySelector('#payment-form iframe');
+      if (iframe) {
+        iframe.style.setProperty('height', '750px', 'important');
+        iframe.style.setProperty('min-height', '750px', 'important');
+        iframe.style.setProperty('width', '100%', 'important');
+        iframe.style.setProperty('border', 'none', 'important');
+        clearInterval(interval);
+      }
+      if (++attempts > 40) clearInterval(interval); // give up after 4s
+    }, 100);
+  }
 
   function openModal() {
     modal.removeAttribute('aria-hidden');
@@ -169,6 +197,7 @@
         target: "payment-form",
         options: options
       });
+      forceIframeHeight();
     };
 
     if (typeof window.PaymentGateway === 'undefined') {
