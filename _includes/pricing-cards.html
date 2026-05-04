@@ -17,7 +17,11 @@
         <li>{{ feature }}</li>
         {% endfor %}
       </ul>
+      {% if plan.payment_embed %}
+      <button class="btn btn-primary" id="open-payment-modal" aria-haspopup="dialog" aria-label="Book Now — 10-Yard Dumpster">Book Now</button>
+      {% else %}
       <a href="{{ site.data.site.phone_link }}" class="btn btn-primary">Call to Book</a>
+      {% endif %}
     </div>
   </div>
   {% endfor %}
